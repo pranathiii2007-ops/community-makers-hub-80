@@ -16,6 +16,7 @@ import { Route as AppSchemesRouteImport } from './routes/_app.schemes'
 import { Route as AppMarketplaceRouteImport } from './routes/_app.marketplace'
 import { Route as AppHomeRouteImport } from './routes/_app.home'
 import { Route as AppBusinessIdeasRouteImport } from './routes/_app.business-ideas'
+import { Route as AppAboutRouteImport } from './routes/_app.about'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -51,9 +52,15 @@ const AppBusinessIdeasRoute = AppBusinessIdeasRouteImport.update({
   path: '/business-ideas',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAboutRoute = AppAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AppAboutRoute
   '/business-ideas': typeof AppBusinessIdeasRoute
   '/home': typeof AppHomeRoute
   '/marketplace': typeof AppMarketplaceRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AppAboutRoute
   '/business-ideas': typeof AppBusinessIdeasRoute
   '/home': typeof AppHomeRoute
   '/marketplace': typeof AppMarketplaceRoute
@@ -72,6 +80,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
+  '/_app/about': typeof AppAboutRoute
   '/_app/business-ideas': typeof AppBusinessIdeasRoute
   '/_app/home': typeof AppHomeRoute
   '/_app/marketplace': typeof AppMarketplaceRoute
@@ -82,6 +91,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/business-ideas'
     | '/home'
     | '/marketplace'
@@ -90,6 +100,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/business-ideas'
     | '/home'
     | '/marketplace'
@@ -99,6 +110,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_app'
+    | '/_app/about'
     | '/_app/business-ideas'
     | '/_app/home'
     | '/_app/marketplace'
@@ -162,10 +174,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBusinessIdeasRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/about': {
+      id: '/_app/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AppAboutRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAboutRoute: typeof AppAboutRoute
   AppBusinessIdeasRoute: typeof AppBusinessIdeasRoute
   AppHomeRoute: typeof AppHomeRoute
   AppMarketplaceRoute: typeof AppMarketplaceRoute
@@ -174,6 +194,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAboutRoute: AppAboutRoute,
   AppBusinessIdeasRoute: AppBusinessIdeasRoute,
   AppHomeRoute: AppHomeRoute,
   AppMarketplaceRoute: AppMarketplaceRoute,
