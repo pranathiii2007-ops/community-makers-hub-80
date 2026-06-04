@@ -4,19 +4,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
+/* Community Makers' Market — warm artisan design system */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap");
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -59,29 +49,41 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-terracotta: var(--terracotta);
+  --color-sage: var(--sage);
+  --color-mustard: var(--mustard);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "Noto Sans Telugu", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --radius: 1rem;
+  --background: oklch(0.985 0.012 80);
+  --foreground: oklch(0.22 0.03 40);
+  --ink: oklch(0.22 0.03 40);
+  --cream: oklch(0.97 0.022 80);
+  --terracotta: oklch(0.62 0.15 38);
+  --sage: oklch(0.62 0.08 150);
+  --mustard: oklch(0.78 0.14 80);
+  --card: oklch(1 0.005 80);
+  --card-foreground: oklch(0.22 0.03 40);
+  --popover: oklch(1 0.005 80);
+  --popover-foreground: oklch(0.22 0.03 40);
+  --primary: oklch(0.58 0.16 38);
+  --primary-foreground: oklch(0.985 0.015 80);
+  --secondary: oklch(0.94 0.03 80);
+  --secondary-foreground: oklch(0.3 0.05 40);
+  --muted: oklch(0.95 0.018 80);
+  --muted-foreground: oklch(0.48 0.03 50);
+  --accent: oklch(0.62 0.08 150);
+  --accent-foreground: oklch(0.985 0.015 80);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.9 0.02 70);
+  --input: oklch(0.92 0.018 70);
+  --ring: oklch(0.62 0.15 38);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -95,6 +97,11 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --gradient-warm: linear-gradient(135deg, oklch(0.78 0.14 80) 0%, oklch(0.62 0.15 38) 100%);
+  --gradient-sunrise: linear-gradient(135deg, oklch(0.92 0.06 80) 0%, oklch(0.85 0.09 50) 50%, oklch(0.78 0.12 38) 100%);
+  --gradient-meadow: linear-gradient(135deg, oklch(0.85 0.06 150) 0%, oklch(0.62 0.08 150) 100%);
+  --shadow-soft: 0 10px 40px -10px oklch(0.4 0.1 38 / 0.18);
+  --shadow-warm: 0 20px 50px -20px oklch(0.58 0.16 38 / 0.35);
 }
 
 .dark {
@@ -140,5 +147,26 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .bg-gradient-warm { background-image: var(--gradient-warm); }
+  .bg-gradient-sunrise { background-image: var(--gradient-sunrise); }
+  .bg-gradient-meadow { background-image: var(--gradient-meadow); }
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+  .shadow-warm { box-shadow: var(--shadow-warm); }
+  .text-balance { text-wrap: balance; }
+  .grain {
+    background-image: radial-gradient(oklch(0.4 0.1 38 / 0.05) 1px, transparent 1px);
+    background-size: 3px 3px;
   }
 }
