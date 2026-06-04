@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppSuccessStoriesRouteImport } from './routes/_app.success-stories'
+import { Route as AppSchemesRouteImport } from './routes/_app.schemes'
 import { Route as AppMarketplaceRouteImport } from './routes/_app.marketplace'
 import { Route as AppHomeRouteImport } from './routes/_app.home'
 import { Route as AppBusinessIdeasRouteImport } from './routes/_app.business-ideas'
@@ -28,6 +29,11 @@ const IndexRoute = IndexRouteImport.update({
 const AppSuccessStoriesRoute = AppSuccessStoriesRouteImport.update({
   id: '/success-stories',
   path: '/success-stories',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSchemesRoute = AppSchemesRouteImport.update({
+  id: '/schemes',
+  path: '/schemes',
   getParentRoute: () => AppRoute,
 } as any)
 const AppMarketplaceRoute = AppMarketplaceRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/business-ideas': typeof AppBusinessIdeasRoute
   '/home': typeof AppHomeRoute
   '/marketplace': typeof AppMarketplaceRoute
+  '/schemes': typeof AppSchemesRoute
   '/success-stories': typeof AppSuccessStoriesRoute
 }
 export interface FileRoutesByTo {
@@ -58,6 +65,7 @@ export interface FileRoutesByTo {
   '/business-ideas': typeof AppBusinessIdeasRoute
   '/home': typeof AppHomeRoute
   '/marketplace': typeof AppMarketplaceRoute
+  '/schemes': typeof AppSchemesRoute
   '/success-stories': typeof AppSuccessStoriesRoute
 }
 export interface FileRoutesById {
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   '/_app/business-ideas': typeof AppBusinessIdeasRoute
   '/_app/home': typeof AppHomeRoute
   '/_app/marketplace': typeof AppMarketplaceRoute
+  '/_app/schemes': typeof AppSchemesRoute
   '/_app/success-stories': typeof AppSuccessStoriesRoute
 }
 export interface FileRouteTypes {
@@ -76,9 +85,16 @@ export interface FileRouteTypes {
     | '/business-ideas'
     | '/home'
     | '/marketplace'
+    | '/schemes'
     | '/success-stories'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/business-ideas' | '/home' | '/marketplace' | '/success-stories'
+  to:
+    | '/'
+    | '/business-ideas'
+    | '/home'
+    | '/marketplace'
+    | '/schemes'
+    | '/success-stories'
   id:
     | '__root__'
     | '/'
@@ -86,6 +102,7 @@ export interface FileRouteTypes {
     | '/_app/business-ideas'
     | '/_app/home'
     | '/_app/marketplace'
+    | '/_app/schemes'
     | '/_app/success-stories'
   fileRoutesById: FileRoutesById
 }
@@ -117,6 +134,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSuccessStoriesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/schemes': {
+      id: '/_app/schemes'
+      path: '/schemes'
+      fullPath: '/schemes'
+      preLoaderRoute: typeof AppSchemesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/marketplace': {
       id: '/_app/marketplace'
       path: '/marketplace'
@@ -145,6 +169,7 @@ interface AppRouteChildren {
   AppBusinessIdeasRoute: typeof AppBusinessIdeasRoute
   AppHomeRoute: typeof AppHomeRoute
   AppMarketplaceRoute: typeof AppMarketplaceRoute
+  AppSchemesRoute: typeof AppSchemesRoute
   AppSuccessStoriesRoute: typeof AppSuccessStoriesRoute
 }
 
@@ -152,6 +177,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppBusinessIdeasRoute: AppBusinessIdeasRoute,
   AppHomeRoute: AppHomeRoute,
   AppMarketplaceRoute: AppMarketplaceRoute,
+  AppSchemesRoute: AppSchemesRoute,
   AppSuccessStoriesRoute: AppSuccessStoriesRoute,
 }
 
