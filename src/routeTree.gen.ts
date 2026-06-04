@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppHomeRouteImport } from './routes/_app.home'
+import { Route as AppBusinessIdeasRouteImport } from './routes/_app.business-ideas'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -27,27 +28,35 @@ const AppHomeRoute = AppHomeRouteImport.update({
   path: '/home',
   getParentRoute: () => AppRoute,
 } as any)
+const AppBusinessIdeasRoute = AppBusinessIdeasRouteImport.update({
+  id: '/business-ideas',
+  path: '/business-ideas',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/business-ideas': typeof AppBusinessIdeasRoute
   '/home': typeof AppHomeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/business-ideas': typeof AppBusinessIdeasRoute
   '/home': typeof AppHomeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
+  '/_app/business-ideas': typeof AppBusinessIdeasRoute
   '/_app/home': typeof AppHomeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home'
+  fullPaths: '/' | '/business-ideas' | '/home'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home'
-  id: '__root__' | '/' | '/_app' | '/_app/home'
+  to: '/' | '/business-ideas' | '/home'
+  id: '__root__' | '/' | '/_app' | '/_app/business-ideas' | '/_app/home'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -78,14 +87,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHomeRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/business-ideas': {
+      id: '/_app/business-ideas'
+      path: '/business-ideas'
+      fullPath: '/business-ideas'
+      preLoaderRoute: typeof AppBusinessIdeasRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppBusinessIdeasRoute: typeof AppBusinessIdeasRoute
   AppHomeRoute: typeof AppHomeRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppBusinessIdeasRoute: AppBusinessIdeasRoute,
   AppHomeRoute: AppHomeRoute,
 }
 
