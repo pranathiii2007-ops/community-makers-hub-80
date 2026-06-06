@@ -1,5 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Flame, Salad, Gem, Scissors, Gift, Sprout, Palette, Heart, ArrowRight, IndianRupee, Gauge, TrendingUp, CheckCircle2 } from "lucide-react";
+import { Flame, Salad, Gem, Scissors, Gift, Sprout, Palette, Heart, ArrowRight, IndianRupee, Gauge, TrendingUp, CheckCircle2, X } from "lucide-react";
+import { useState } from "react";
+import { useLang } from "@/lib/i18n";
+import type { Idea } from "@/lib/translations";
+
+const ICONS = [Flame, Salad, Gem, Scissors, Gift, Sprout, Palette, Heart];
 
 export const Route = createFileRoute("/_app/business-ideas")({
   head: () => ({
@@ -13,19 +18,6 @@ export const Route = createFileRoute("/_app/business-ideas")({
   component: BusinessIdeasPage,
 });
 
-type Idea = { name: string; icon: typeof Flame; cost: string; level: "Beginner" | "Intermediate" | "Advanced"; earn: string; tag: string };
-
-const IDEAS: Idea[] = [
-  { name: "Handmade Candles", icon: Flame, cost: "₹2,000 – ₹5,000", level: "Beginner", earn: "₹8k – ₹25k / month", tag: "Home & Decor" },
-  { name: "Homemade Pickles", icon: Salad, cost: "₹1,500 – ₹4,000", level: "Beginner", earn: "₹6k – ₹20k / month", tag: "Food" },
-  { name: "Jewelry Making", icon: Gem, cost: "₹3,000 – ₹8,000", level: "Intermediate", earn: "₹10k – ₹40k / month", tag: "Fashion" },
-  { name: "Tailoring", icon: Scissors, cost: "₹5,000 – ₹15,000", level: "Intermediate", earn: "₹8k – ₹35k / month", tag: "Fashion" },
-  { name: "Customized Gifts", icon: Gift, cost: "₹2,000 – ₹6,000", level: "Beginner", earn: "₹7k – ₹22k / month", tag: "Gifting" },
-  { name: "Plant Nursery", icon: Sprout, cost: "₹4,000 – ₹12,000", level: "Beginner", earn: "₹10k – ₹30k / month", tag: "Green" },
-  { name: "Paintings", icon: Palette, cost: "₹2,000 – ₹7,000", level: "Advanced", earn: "₹5k – ₹50k / month", tag: "Art" },
-  { name: "Crochet Crafts", icon: Heart, cost: "₹1,000 – ₹3,000", level: "Beginner", earn: "₹6k – ₹18k / month", tag: "Crafts" },
-];
-
 function levelBadge(l: Idea["level"]) {
   const map: Record<Idea["level"], string> = {
     Beginner: "bg-sage/15 text-sage",
@@ -36,87 +28,157 @@ function levelBadge(l: Idea["level"]) {
 }
 
 function BusinessIdeasPage() {
+  const { tr } = useLang();
+  const [active, setActive] = useState<Idea | null>(null);
   return (
     <>
       <section className="relative overflow-hidden border-b border-border bg-gradient-sunrise/70">
         <div className="absolute inset-0 grain opacity-50" />
         <div className="relative mx-auto max-w-7xl px-6 py-20">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Business Ideas</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{tr.ideas.kicker}</span>
           <h1 className="mt-3 max-w-3xl font-display text-5xl font-semibold leading-tight text-balance sm:text-6xl">
-            Pick a craft. Start small. Grow steady.
+            {tr.ideas.title}
           </h1>
           <p className="mt-4 max-w-2xl text-base text-muted-foreground">
-            Each idea below is sized for a small home setup, with honest cost and earning ranges based on community feedback.
+            {tr.ideas.desc}
           </p>
         </div>
       </section>
 
       <section className="py-16">
         <div className="mx-auto grid max-w-7xl gap-5 px-6 sm:grid-cols-2 lg:grid-cols-4">
-          {IDEAS.map(({ name, icon: Icon, cost, level, earn, tag }) => (
-            <article key={name} className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 transition hover:-translate-y-1 hover:shadow-warm">
-              <div className="flex items-start justify-between">
-                <div className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-warm text-primary-foreground shadow-soft transition group-hover:scale-110">
-                  <Icon className="h-5 w-5" />
+          {tr.ideas.list.map((idea, i) => {
+            const Icon = ICONS[i] ?? Flame;
+            return (
+              <article key={idea.slug} className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 transition hover:-translate-y-1 hover:shadow-warm">
+                <div className="flex items-start justify-between">
+                  <div className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-warm text-primary-foreground shadow-soft transition group-hover:scale-110">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${levelBadge(idea.level)}`}>{idea.levelLabel}</span>
                 </div>
-                <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${levelBadge(level)}`}>{level}</span>
-              </div>
-              <h3 className="mt-5 font-display text-xl font-semibold leading-tight">{name}</h3>
-              <div className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">{tag}</div>
-              <dl className="mt-5 space-y-2.5 text-sm">
-                <div className="flex items-center justify-between gap-2 border-t border-dashed border-border pt-2.5">
-                  <dt className="flex items-center gap-1.5 text-muted-foreground"><IndianRupee className="h-3.5 w-3.5" /> Startup</dt>
-                  <dd className="font-semibold">{cost}</dd>
-                </div>
-                <div className="flex items-center justify-between gap-2">
-                  <dt className="flex items-center gap-1.5 text-muted-foreground"><Gauge className="h-3.5 w-3.5" /> Skill</dt>
-                  <dd className="font-semibold">{level}</dd>
-                </div>
-                <div className="flex items-center justify-between gap-2">
-                  <dt className="flex items-center gap-1.5 text-muted-foreground"><TrendingUp className="h-3.5 w-3.5" /> Earnings</dt>
-                  <dd className="font-semibold text-primary">{earn}</dd>
-                </div>
-              </dl>
-              <button className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground hover:gap-2.5 transition-all">
-                Learn More <ArrowRight className="h-4 w-4" />
-              </button>
-            </article>
-          ))}
+                <h3 className="mt-5 font-display text-xl font-semibold leading-tight">{idea.name}</h3>
+                <div className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">{idea.tag}</div>
+                <dl className="mt-5 space-y-2.5 text-sm">
+                  <div className="flex items-center justify-between gap-2 border-t border-dashed border-border pt-2.5">
+                    <dt className="flex items-center gap-1.5 text-muted-foreground"><IndianRupee className="h-3.5 w-3.5" /> {tr.common.startup}</dt>
+                    <dd className="font-semibold">{idea.cost}</dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-2">
+                    <dt className="flex items-center gap-1.5 text-muted-foreground"><Gauge className="h-3.5 w-3.5" /> {tr.common.skill}</dt>
+                    <dd className="font-semibold">{idea.levelLabel}</dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-2">
+                    <dt className="flex items-center gap-1.5 text-muted-foreground"><TrendingUp className="h-3.5 w-3.5" /> {tr.common.earnings}</dt>
+                    <dd className="font-semibold text-primary">{idea.earn}</dd>
+                  </div>
+                </dl>
+                <button onClick={() => setActive(idea)} className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground hover:gap-2.5 transition-all">
+                  {tr.common.learnMore} <ArrowRight className="h-4 w-4" />
+                </button>
+              </article>
+            );
+          })}
         </div>
       </section>
 
       <FeaturedGuide />
+      {active && <IdeaModal idea={active} onClose={() => setActive(null)} />}
     </>
   );
 }
 
-function FeaturedGuide() {
-  const steps = [
-    { t: "Gather your materials", d: "Wax (soy or paraffin), cotton wicks, fragrance oils, dyes, glass jars, double-boiler, thermometer." },
-    { t: "Set a small budget", d: "Start with ₹3,000 for a batch of 25–30 candles. Reinvest profits before scaling." },
-    { t: "Melt, scent, pour", d: "Melt wax to 70°C, mix fragrance at 65°C, pour at 60°C. Let cool undisturbed for 24 hours." },
-    { t: "Price honestly", d: "Cost per candle ×3 is a healthy starting price. ₹120 cost → ₹350 sale price." },
-    { t: "Market locally first", d: "WhatsApp neighbours, a small Instagram page, a corner at the next community fair." },
-  ];
-  const materials = ["Soy wax — ₹450/kg", "Cotton wicks — ₹80/pack", "Fragrance oils — ₹250/bottle", "Glass jars — ₹40/each", "Dye chips — ₹120/pack"];
-  const tips = ["Photograph in natural light", "Bundle 3 for ₹899", "Offer custom scents for events", "Ask buyers for a WhatsApp review"];
+function IdeaModal({ idea, onClose }: { idea: Idea; onClose: () => void }) {
+  const { tr } = useLang();
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-foreground/60 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div onClick={(e) => e.stopPropagation()} className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-border bg-card shadow-warm">
+        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-border bg-card/95 p-6 backdrop-blur">
+          <div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">{idea.tag}</div>
+            <h2 className="mt-1 font-display text-2xl font-semibold leading-tight">{idea.name}</h2>
+          </div>
+          <button onClick={onClose} aria-label={tr.common.close} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border bg-background hover:bg-secondary">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        <div className="space-y-6 p-6">
+          <p className="text-foreground/85">{idea.description}</p>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <Stat label={tr.common.startup} value={idea.cost} />
+            <Stat label={tr.common.skill} value={idea.levelLabel} />
+            <Stat label={tr.common.earnings} value={idea.earn} accent />
+          </div>
+          <Section title={tr.common.materials}>
+            <ul className="grid gap-2 sm:grid-cols-2">
+              {idea.materials.map((m) => (
+                <li key={m} className="flex items-start gap-2 text-sm"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-sage" /> {m}</li>
+              ))}
+            </ul>
+          </Section>
+          <Section title={tr.common.steps}>
+            <ol className="space-y-2.5">
+              {idea.steps.map((s, i) => (
+                <li key={s} className="flex gap-3 text-sm">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-gradient-warm text-xs font-bold text-primary-foreground">{i + 1}</span>
+                  <span className="text-foreground/85">{s}</span>
+                </li>
+              ))}
+            </ol>
+          </Section>
+          <Section title={tr.common.pricingTips}>
+            <p className="rounded-2xl bg-secondary/60 p-4 text-sm text-foreground/85">{idea.pricing}</p>
+          </Section>
+          <Section title={tr.common.marketingTips}>
+            <ul className="space-y-2">
+              {idea.marketing.map((m) => (
+                <li key={m} className="flex items-start gap-2 text-sm"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> {m}</li>
+              ))}
+            </ul>
+          </Section>
+        </div>
+      </div>
+    </div>
+  );
+}
 
+function Stat({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <div className="rounded-2xl border border-border bg-background p-4">
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
+      <div className={`mt-1 font-semibold ${accent ? "text-primary" : ""}`}>{value}</div>
+    </div>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h3 className="font-display text-lg font-semibold">{title}</h3>
+      <div className="mt-3">{children}</div>
+    </div>
+  );
+}
+
+function FeaturedGuide() {
+  const { tr } = useLang();
+  const g = tr.ideas.guide;
   return (
     <section className="bg-secondary/40 py-24">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Featured Startup Guide</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{g.kicker}</span>
           <h2 className="mt-3 font-display text-4xl font-semibold leading-tight text-balance sm:text-5xl">
-            Handmade Candle Business — your first 30 days.
+            {g.title}
           </h2>
           <p className="mt-3 text-base text-muted-foreground">
-            A complete walkthrough from raw wax to first sale, written for absolute beginners.
+            {g.desc}
           </p>
         </div>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           <ol className="relative space-y-5 border-l-2 border-dashed border-border pl-7">
-            {steps.map((s, i) => (
+            {g.steps.map((s, i) => (
               <li key={s.t} className="relative">
                 <span className="absolute -left-[37px] grid h-8 w-8 place-items-center rounded-full bg-gradient-warm text-xs font-bold text-primary-foreground shadow-soft">
                   {i + 1}
@@ -131,9 +193,9 @@ function FeaturedGuide() {
 
           <div className="space-y-5">
             <div className="rounded-3xl border border-border bg-card p-6">
-              <h4 className="font-display text-lg font-semibold">Required Materials</h4>
+              <h4 className="font-display text-lg font-semibold">{g.materialsLabel}</h4>
               <ul className="mt-3 space-y-2 text-sm">
-                {materials.map((m) => (
+                {g.materials.map((m) => (
                   <li key={m} className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-sage" /> {m}
                   </li>
@@ -141,14 +203,14 @@ function FeaturedGuide() {
               </ul>
             </div>
             <div className="rounded-3xl border border-border bg-card p-6">
-              <h4 className="font-display text-lg font-semibold">Estimated Cost</h4>
-              <div className="mt-2 font-display text-3xl font-semibold text-primary">₹3,000</div>
-              <p className="text-sm text-muted-foreground">for a starter batch of ~25 candles. Average margin: 60%.</p>
+              <h4 className="font-display text-lg font-semibold">{g.costLabel}</h4>
+              <div className="mt-2 font-display text-3xl font-semibold text-primary">{g.cost}</div>
+              <p className="text-sm text-muted-foreground">{g.costNote}</p>
             </div>
             <div className="rounded-3xl bg-gradient-warm p-6 text-primary-foreground shadow-soft">
-              <h4 className="font-display text-lg font-semibold">Marketing Tips</h4>
+              <h4 className="font-display text-lg font-semibold">{g.tipsLabel}</h4>
               <ul className="mt-3 space-y-2 text-sm">
-                {tips.map((t) => (
+                {g.tips.map((t) => (
                   <li key={t} className="flex items-center gap-2 opacity-95">
                     <CheckCircle2 className="h-4 w-4" /> {t}
                   </li>
