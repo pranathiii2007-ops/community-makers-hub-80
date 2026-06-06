@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Search, ArrowRight, Landmark } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_app/schemes")({
   head: () => ({
@@ -12,29 +13,21 @@ export const Route = createFileRoute("/_app/schemes")({
   component: SchemesPage,
 });
 
-const SCHEMES = [
-  { name: "Women Entrepreneurship Support (Stand-Up India)", benefits: "Loans of ₹10 lakh to ₹1 crore for women-led enterprises.", eligibility: "Women aged 18+ starting a greenfield enterprise." },
-  { name: "Self Help Group Assistance (DAY-NRLM)", benefits: "Revolving fund and community investment support for SHGs.", eligibility: "Registered SHGs with active savings for 3+ months." },
-  { name: "Skill Development Programs (PMKVY)", benefits: "Free certified skill training and placement support.", eligibility: "Indian citizens aged 15–45 with basic literacy." },
-  { name: "Startup Support Programs (Startup India Seed Fund)", benefits: "Grants up to ₹20 lakh for proof of concept and prototypes.", eligibility: "DPIIT-recognised startups under 2 years old." },
-  { name: "Mudra Loan (Shishu)", benefits: "Collateral-free loans up to ₹50,000 for micro-enterprises.", eligibility: "Non-corporate, non-farm small business owners." },
-  { name: "Mahila Coir Yojana", benefits: "Subsidy on motorised ratts for women coir artisans.", eligibility: "Women trained in coir spinning." },
-];
-
 function SchemesPage() {
+  const { tr } = useLang();
   const [q, setQ] = useState("");
-  const list = useMemo(() => SCHEMES.filter((s) => (s.name + s.benefits + s.eligibility).toLowerCase().includes(q.toLowerCase())), [q]);
+  const list = useMemo(() => tr.schemes.list.filter((s) => (s.name + s.benefits + s.eligibility).toLowerCase().includes(q.toLowerCase())), [q, tr]);
   return (
     <>
       <section className="border-b border-border bg-gradient-sunrise/60">
         <div className="mx-auto max-w-7xl px-6 py-20">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Government Schemes</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{tr.schemes.kicker}</span>
           <h1 className="mt-3 max-w-3xl font-display text-5xl font-semibold leading-tight text-balance sm:text-6xl">
-            Support that already exists — explained simply.
+            {tr.schemes.title}
           </h1>
           <div className="mt-8 flex max-w-xl items-center gap-3 rounded-full border border-border bg-card px-5 py-3 shadow-soft">
             <Search className="h-4 w-4 text-muted-foreground" />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search schemes…" className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={tr.schemes.searchPh} className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
           </div>
         </div>
       </section>
@@ -50,17 +43,17 @@ function SchemesPage() {
                 <div className="flex-1">
                   <h3 className="font-display text-lg font-semibold leading-tight">{s.name}</h3>
                   <dl className="mt-4 space-y-3 text-sm">
-                    <div><dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Benefits</dt><dd className="mt-1 text-foreground/85">{s.benefits}</dd></div>
-                    <div><dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Eligibility</dt><dd className="mt-1 text-foreground/85">{s.eligibility}</dd></div>
+                    <div><dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{tr.schemes.benefitsLabel}</dt><dd className="mt-1 text-foreground/85">{s.benefits}</dd></div>
+                    <div><dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{tr.schemes.eligibilityLabel}</dt><dd className="mt-1 text-foreground/85">{s.eligibility}</dd></div>
                   </dl>
                   <button className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:gap-2.5 transition-all">
-                    Learn More <ArrowRight className="h-4 w-4" />
+                    {tr.common.learnMore} <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
               </div>
             </article>
           ))}
-          {list.length === 0 && <div className="md:col-span-2 rounded-3xl border border-dashed border-border bg-card p-10 text-center text-muted-foreground">No schemes match "{q}".</div>}
+          {list.length === 0 && <div className="md:col-span-2 rounded-3xl border border-dashed border-border bg-card p-10 text-center text-muted-foreground">{tr.schemes.empty}</div>}
         </div>
       </section>
     </>

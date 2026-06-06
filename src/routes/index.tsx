@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
 });
 
 function LanguageSelect() {
-  const { setLang, t } = useLang();
+  const { setLang, tr } = useLang();
   const navigate = useNavigate();
   const [picked, setPicked] = useState<Lang | null>(null);
 
@@ -36,20 +36,20 @@ function LanguageSelect() {
       <div className="relative mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center px-6 py-12 text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-background/60 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-foreground/70 backdrop-blur">
           <Sparkles className="h-3.5 w-3.5 text-primary" />
-          Community Makers' Market
+          {tr.lang.chip}
         </div>
 
         <h1 className="mt-8 font-display text-5xl font-semibold leading-[1.05] text-balance text-foreground sm:text-6xl">
-          {t("lang.title")}
+          {tr.lang.title}
         </h1>
         <p className="mt-4 max-w-md text-base text-foreground/70">
-          {t("lang.subtitle")}
+          {tr.lang.subtitle}
         </p>
 
         <div className="mt-12 grid w-full max-w-xl gap-4 sm:grid-cols-2">
           {([
-            { code: "en" as Lang, big: "English", small: "Continue in English" },
-            { code: "te" as Lang, big: "తెలుగు", small: "తెలుగులో కొనసాగండి" },
+            { code: "en" as Lang, big: "English", small: tr.lang.enSub },
+            { code: "te" as Lang, big: "తెలుగు", small: tr.lang.teSub },
           ]).map((opt) => {
             const active = picked === opt.code;
             return (
@@ -80,11 +80,11 @@ function LanguageSelect() {
           disabled={!picked}
           className="mt-10 inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm font-semibold text-background shadow-warm transition hover:gap-3 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {t("lang.continue")}
+          {tr.lang.continue}
           <ArrowRight className="h-4 w-4" />
         </button>
 
-        <p className="mt-8 text-xs text-foreground/50">You can change your language anytime from the navigation bar.</p>
+        <p className="mt-8 text-xs text-foreground/50">{tr.lang.changeNote}</p>
       </div>
     </div>
   );
