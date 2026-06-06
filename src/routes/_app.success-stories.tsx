@@ -3,6 +3,7 @@ import { Quote, Sparkles, Heart, GraduationCap, Users } from "lucide-react";
 import lakshmi from "@/assets/story-lakshmi.jpg";
 import priya from "@/assets/story-priya.jpg";
 import shg from "@/assets/story-shg.jpg";
+import { useLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_app/success-stories")({
   head: () => ({
@@ -14,27 +15,25 @@ export const Route = createFileRoute("/_app/success-stories")({
   component: StoriesPage,
 });
 
-const STORIES = [
-  { img: lakshmi, name: "Lakshmi", role: "Homemaker · Kothapet", quote: "I started selling handmade candles from home and now earn a steady additional income every month — and I trained two neighbours too." },
-  { img: priya, name: "Priya", role: "Student · Tarnaka", quote: "Between classes, my small jewelry brand pays my college fees. The community guides taught me pricing and packaging." },
-  { img: shg, name: "Sakhi SHG", role: "Self-help Group · Dilsukhnagar", quote: "Twelve of us pooled our tailoring skills. We now stitch uniforms for two local schools and our families are proud." },
-];
+const IMAGES = [lakshmi, priya, shg];
 
 function StoriesPage() {
+  const { tr } = useLang();
+  const stories = tr.stories.list.map((s, i) => ({ ...s, img: IMAGES[i] }));
   return (
     <>
       <section className="border-b border-border bg-gradient-sunrise/60">
         <div className="mx-auto max-w-7xl px-6 py-20">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Success Stories</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{tr.stories.kicker}</span>
           <h1 className="mt-3 max-w-3xl font-display text-5xl font-semibold leading-tight text-balance sm:text-6xl">
-            Real makers. Real income. Real change.
+            {tr.stories.title}
           </h1>
         </div>
       </section>
 
       <section className="py-16">
         <div className="mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-3">
-          {STORIES.map((s) => (
+          {stories.map((s) => (
             <article key={s.name} className="group overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:shadow-warm">
               <img src={s.img} alt={s.name} width={800} height={800} loading="lazy" className="aspect-[4/3] w-full object-cover" />
               <div className="p-6">
@@ -54,20 +53,20 @@ function StoriesPage() {
         <div className="mx-auto grid max-w-7xl gap-6 px-6 md:grid-cols-2">
           <div className="overflow-hidden rounded-[2rem] bg-gradient-warm p-10 text-primary-foreground shadow-warm">
             <Heart className="h-7 w-7" />
-            <h2 className="mt-4 font-display text-3xl font-semibold leading-tight">Women Empowerment</h2>
-            <p className="mt-3 opacity-90">Business opportunities, financial independence, and skill development designed around the rhythm of a household.</p>
+            <h2 className="mt-4 font-display text-3xl font-semibold leading-tight">{tr.stories.women.title}</h2>
+            <p className="mt-3 opacity-90">{tr.stories.women.desc}</p>
             <ul className="mt-5 space-y-2 text-sm">
-              {["Tailored business ideas for homemakers", "Mentorship from successful women entrepreneurs", "Self-help group formation support", "Access to financial schemes"].map((i) => (
+              {tr.stories.women.items.map((i) => (
                 <li key={i} className="flex items-center gap-2"><Sparkles className="h-3.5 w-3.5" /> {i}</li>
               ))}
             </ul>
           </div>
           <div className="overflow-hidden rounded-[2rem] bg-gradient-meadow p-10 text-primary-foreground shadow-warm">
             <GraduationCap className="h-7 w-7" />
-            <h2 className="mt-4 font-display text-3xl font-semibold leading-tight">Youth Entrepreneurship</h2>
-            <p className="mt-3 opacity-90">For students and first-time founders — bite-sized startups that fit between lectures and life.</p>
+            <h2 className="mt-4 font-display text-3xl font-semibold leading-tight">{tr.stories.youth.title}</h2>
+            <p className="mt-3 opacity-90">{tr.stories.youth.desc}</p>
             <ul className="mt-5 space-y-2 text-sm">
-              {["Low-cost student startup ideas", "Creative side-hustle blueprints", "Innovation workshops", "Peer founder community"].map((i) => (
+              {tr.stories.youth.items.map((i) => (
                 <li key={i} className="flex items-center gap-2"><Users className="h-3.5 w-3.5" /> {i}</li>
               ))}
             </ul>
