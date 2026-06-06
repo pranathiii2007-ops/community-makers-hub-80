@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles, Lightbulb, Store, BookOpen, Users, Globe2, Heart, TrendingUp, Award, Quote } from "lucide-react";
 import heroImg from "@/assets/hero-community.jpg";
 import storyLakshmi from "@/assets/story-lakshmi.jpg";
+import { useLang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/_app/home")({
   head: () => ({
@@ -28,6 +29,7 @@ function HomePage() {
 }
 
 function Hero() {
+  const { tr } = useLang();
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-sunrise opacity-60" />
@@ -38,30 +40,30 @@ function Hero() {
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-background/70 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-foreground/70 backdrop-blur">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
-            A community entrepreneurship platform
+            {tr.hero.kicker}
           </div>
           <h1 className="mt-6 font-display text-5xl font-semibold leading-[1.02] text-balance text-foreground sm:text-6xl lg:text-7xl">
-            Community<br />
-            <span className="bg-gradient-warm bg-clip-text text-transparent">Makers' Market</span>
+            {tr.hero.titleA}<br />
+            <span className="bg-gradient-warm bg-clip-text text-transparent">{tr.hero.titleB}</span>
           </h1>
           <p className="mt-5 max-w-xl text-lg font-medium text-foreground/80">
-            Support Local Talent, Build a Stronger Community.
+            {tr.hero.tagline}
           </p>
           <p className="mt-3 max-w-xl text-base text-muted-foreground">
-            Helping local residents transform their skills and creativity into sustainable income opportunities — from kitchen-table candles to neighbourhood ateliers.
+            {tr.hero.desc}
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link to="/business-ideas" className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-semibold text-background shadow-warm transition hover:gap-3">
-              Explore Business Ideas <ArrowRight className="h-4 w-4" />
+              {tr.hero.cta1} <ArrowRight className="h-4 w-4" />
             </Link>
             <Link to="/marketplace" className="inline-flex items-center gap-2 rounded-full border-2 border-foreground/20 bg-background/60 px-6 py-3.5 text-sm font-semibold text-foreground backdrop-blur transition hover:border-foreground/40">
-              Start Selling
+              {tr.hero.cta2}
             </Link>
           </div>
 
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-foreground/70">
-            {["500+ Ideas", "200+ Creators", "100+ Products", "50+ Stories"].map((s) => (
+            {tr.hero.stats.map((s) => (
               <div key={s} className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                 <span className="font-medium">{s}</span>
@@ -78,8 +80,8 @@ function Hero() {
           <div className="absolute -bottom-6 -left-6 hidden rounded-2xl border border-border bg-card/95 p-4 shadow-soft backdrop-blur sm:flex sm:items-center sm:gap-3">
             <div className="grid h-11 w-11 place-items-center rounded-xl bg-sage/20 text-sage"><Heart className="h-5 w-5" /></div>
             <div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground">Today</div>
-              <div className="text-sm font-semibold">12 new makers joined</div>
+              <div className="text-xs uppercase tracking-wider text-muted-foreground">{tr.hero.today}</div>
+              <div className="text-sm font-semibold">{tr.hero.todayValue}</div>
             </div>
           </div>
         </div>
@@ -89,33 +91,25 @@ function Hero() {
 }
 
 function WhyExists() {
-  const problems = [
-    { icon: Users, t: "Talent without opportunity", d: "Skilled people in our neighbourhoods lack access to markets and customers." },
-    { icon: Heart, t: "Homemakers, hidden", d: "Years of craft and care, with limited visibility outside the home." },
-    { icon: Lightbulb, t: "Where do I even start?", d: "Many don't know the first step to turn a skill into a small business." },
-    { icon: Globe2, t: "Language as a wall", d: "Useful information rarely reaches people in the language they think in." },
-  ];
-  const solutions = [
-    { icon: Lightbulb, t: "Curated business ideas", d: "Realistic, low-cost ideas matched to common household skills." },
-    { icon: BookOpen, t: "Learning resources", d: "Step-by-step guides on materials, pricing and marketing." },
-    { icon: Store, t: "A place to showcase", d: "A simple marketplace where customers can discover your work." },
-    { icon: Award, t: "Government schemes", d: "Programs and subsidies, explained in plain language." },
-    { icon: Users, t: "Community support", d: "Self-help groups and peers cheering you on, every step." },
-  ];
+  const { tr } = useLang();
+  const problemIcons = [Users, Heart, Lightbulb, Globe2];
+  const solutionIcons = [Lightbulb, BookOpen, Store, Award, Users];
+  const problems = tr.why.problems.map((p, i) => ({ ...p, icon: problemIcons[i] ?? Users }));
+  const solutions = tr.why.solutions.map((p, i) => ({ ...p, icon: solutionIcons[i] ?? Lightbulb }));
 
   return (
     <section className="relative py-24">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-2xl">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Why this platform exists</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{tr.why.kicker}</span>
           <h2 className="mt-3 font-display text-4xl font-semibold leading-tight text-balance sm:text-5xl">
-            Real problems in our community — and a gentle way through.
+            {tr.why.title}
           </h2>
         </div>
 
         <div className="mt-14 grid gap-10 lg:grid-cols-2">
           <div>
-            <h3 className="font-display text-xl font-semibold text-terracotta">The Problems</h3>
+            <h3 className="font-display text-xl font-semibold text-terracotta">{tr.why.problemsTitle}</h3>
             <div className="mt-5 space-y-3">
               {problems.map(({ icon: Icon, t, d }) => (
                 <div key={t} className="group flex gap-4 rounded-2xl border border-border bg-card p-5 transition hover:-translate-y-0.5 hover:shadow-soft">
@@ -132,7 +126,7 @@ function WhyExists() {
           </div>
 
           <div>
-            <h3 className="font-display text-xl font-semibold text-sage">What we offer</h3>
+            <h3 className="font-display text-xl font-semibold text-sage">{tr.why.solutionsTitle}</h3>
             <div className="mt-5 space-y-3">
               {solutions.map(({ icon: Icon, t, d }) => (
                 <div key={t} className="group flex gap-4 rounded-2xl border border-border bg-card p-5 transition hover:-translate-y-0.5 hover:shadow-soft">
@@ -154,12 +148,9 @@ function WhyExists() {
 }
 
 function ImpactStats() {
-  const stats = [
-    { n: "500+", l: "Business Ideas Shared", icon: Lightbulb },
-    { n: "200+", l: "Local Creators Supported", icon: Users },
-    { n: "100+", l: "Products Showcased", icon: Store },
-    { n: "50+", l: "Success Stories", icon: TrendingUp },
-  ];
+  const { tr } = useLang();
+  const icons = [Lightbulb, Users, Store, TrendingUp];
+  const stats = tr.impact.stats.map((s, i) => ({ ...s, icon: icons[i] ?? Lightbulb }));
   return (
     <section className="relative">
       <div className="mx-auto max-w-7xl px-6">
@@ -167,8 +158,8 @@ function ImpactStats() {
           <div className="absolute inset-0 grain opacity-20" />
           <div className="relative grid items-center gap-10 lg:grid-cols-[1fr_1.4fr]">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] opacity-80">Community Impact</span>
-              <h2 className="mt-3 font-display text-4xl font-semibold leading-tight sm:text-5xl">Small steps. Real income. Real lives.</h2>
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] opacity-80">{tr.impact.kicker}</span>
+              <h2 className="mt-3 font-display text-4xl font-semibold leading-tight sm:text-5xl">{tr.impact.title}</h2>
             </div>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               {stats.map(({ n, l, icon: Icon }) => (
@@ -187,6 +178,7 @@ function ImpactStats() {
 }
 
 function FeaturedStory() {
+  const { tr } = useLang();
   return (
     <section className="py-24">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 lg:grid-cols-[1fr_1.1fr]">
@@ -196,23 +188,23 @@ function FeaturedStory() {
           </div>
           <div className="absolute -right-4 -bottom-4 hidden rounded-2xl border border-border bg-card p-4 shadow-soft sm:block">
             <Quote className="h-5 w-5 text-primary" />
-            <div className="mt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Lakshmi, Hyderabad</div>
+            <div className="mt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{tr.featured.caption}</div>
           </div>
         </div>
         <div>
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Featured Story</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{tr.featured.kicker}</span>
           <h2 className="mt-3 font-display text-4xl font-semibold leading-tight text-balance sm:text-5xl">
-            "I started with ten candles. Now my home pays its own bills."
+            {tr.featured.title}
           </h2>
           <p className="mt-5 text-base text-muted-foreground">
-            Lakshmi began her handmade candle business at her kitchen table during the monsoon of 2023. With a small starter kit and a steady WhatsApp circle, she now ships across three cities and trains two neighbours.
+            {tr.featured.desc}
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link to="/success-stories" className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition hover:gap-3">
-              Read more stories <ArrowRight className="h-4 w-4" />
+              {tr.featured.cta1} <ArrowRight className="h-4 w-4" />
             </Link>
             <Link to="/business-ideas" className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground hover:bg-secondary">
-              Browse ideas
+              {tr.featured.cta2}
             </Link>
           </div>
         </div>
