@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Flame, Salad, Gem, Scissors, Gift, Sprout, Palette, Heart, ArrowRight, IndianRupee, Gauge, TrendingUp, CheckCircle2, X } from "lucide-react";
+import { Flame, Salad, Gem, Scissors, Gift, Sprout, Palette, Heart, ArrowRight, IndianRupee, Gauge, TrendingUp, CheckCircle2, X, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { useLang } from "@/lib/i18n";
 import type { Idea } from "@/lib/translations";
@@ -30,6 +30,12 @@ function levelBadge(l: Idea["level"]) {
 function BusinessIdeasPage() {
   const { tr } = useLang();
   const [active, setActive] = useState<Idea | null>(null);
+  const cats: Array<"starter" | "under100" | "under200"> = ["starter", "under100", "under200"];
+  const grouped = cats.map((c) => ({
+    key: c,
+    label: tr.common.categories[c],
+    items: tr.ideas.list.filter((i) => (i.category ?? "starter") === c),
+  }));
   return (
     <>
       <section className="relative overflow-hidden border-b border-border bg-gradient-sunrise/70">
@@ -45,12 +51,15 @@ function BusinessIdeasPage() {
         </div>
       </section>
 
-      <section className="py-16">
-        <div className="mx-auto grid max-w-7xl gap-5 px-6 sm:grid-cols-2 lg:grid-cols-4">
-          {tr.ideas.list.map((idea, i) => {
-            const Icon = ICONS[i] ?? Flame;
-            return (
-              <article key={idea.slug} className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 transition hover:-translate-y-1 hover:shadow-warm">
+      <section className="py-16 space-y-16">
+        {grouped.map((g) => (
+          <div key={g.key} className="mx-auto max-w-7xl px-6">
+            <h2 className="font-display text-3xl font-semibold mb-6">{g.label}</h2>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {g.items.map((idea, i) => {
+                const Icon = ICONS[i % ICONS.length] ?? Flame;
+                return (
+                  <article key={idea.slug} className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 transition hover:-translate-y-1 hover:shadow-warm">
                 <div className="flex items-start justify-between">
                   <div className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-warm text-primary-foreground shadow-soft transition group-hover:scale-110">
                     <Icon className="h-5 w-5" />
@@ -76,10 +85,12 @@ function BusinessIdeasPage() {
                 <button onClick={() => setActive(idea)} className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground hover:gap-2.5 transition-all">
                   {tr.common.learnMore} <ArrowRight className="h-4 w-4" />
                 </button>
-              </article>
-            );
-          })}
-        </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </section>
 
       <FeaturedGuide />
@@ -136,6 +147,20 @@ function IdeaModal({ idea, onClose }: { idea: Idea; onClose: () => void }) {
               ))}
             </ul>
           </Section>
+          {idea.shopLinks && idea.shopLinks.length > 0 && (
+            <Section title={tr.common.shopLinks}>
+              <ul className="grid gap-2 sm:grid-cols-2">
+                {idea.shopLinks.map((l) => (
+                  <li key={l.url}>
+                    <a href={l.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm hover:bg-secondary">
+                      <span>{l.label}</span>
+                      <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </Section>
+          )}
         </div>
       </div>
     </div>
