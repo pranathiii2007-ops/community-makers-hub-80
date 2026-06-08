@@ -11,11 +11,13 @@ export type Idea = {
   steps: string[];
   pricing: string;
   marketing: string[];
+  category?: "starter" | "under100" | "under200";
+  shopLinks?: { label: string; url: string }[];
 };
 
 export type Scheme = { name: string; benefits: string; eligibility: string };
 export type Story = { name: string; role: string; quote: string };
-export type Product = { name: string; price: string; seller: string; area: string; rating: number };
+export type Product = { name: string; price: string; seller: string; area: string; rating: number; image?: string };
 
 export type Translation = {
   nav: { home: string; ideas: string; market: string; stories: string; schemes: string; about: string; contact: string };
@@ -35,6 +37,8 @@ export type Translation = {
     pricingTips: string;
     marketingTips: string;
     overview: string;
+    shopLinks: string;
+    categories: { starter: string; under100: string; under200: string };
     levels: { Beginner: string; Intermediate: string; Advanced: string };
   };
   hero: {
