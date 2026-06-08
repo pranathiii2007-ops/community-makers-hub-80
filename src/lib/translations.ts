@@ -130,6 +130,8 @@ const en: Translation = {
     pricingTips: "Pricing Suggestion",
     marketingTips: "Marketing Tips",
     overview: "Overview",
+    shopLinks: "Where to buy materials",
+    categories: { starter: "Basic Starter Ideas", under100: "Under ₹100 Startup Cost", under200: "Under ₹200 Startup Cost" },
     levels: { Beginner: "Beginner", Intermediate: "Intermediate", Advanced: "Advanced" },
   },
   hero: {
@@ -386,6 +388,8 @@ const te: Translation = {
     pricingTips: "ధర సూచనలు",
     marketingTips: "మార్కెటింగ్ సూచనలు",
     overview: "పరిచయం",
+    shopLinks: "వస్తువులు ఎక్కడ కొనాలి",
+    categories: { starter: "ప్రాథమిక ప్రారంభ ఆలోచనలు", under100: "₹100 లోపు ప్రారంభ ఖర్చు", under200: "₹200 లోపు ప్రారంభ ఖర్చు" },
     levels: { Beginner: "ప్రారంభకుడు", Intermediate: "మధ్యస్థాయి", Advanced: "నిపుణుడు" },
   },
   hero: {
