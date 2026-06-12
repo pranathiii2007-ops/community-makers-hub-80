@@ -143,6 +143,8 @@ const en: Translation = {
     marketingTips: "Marketing Tips",
     overview: "Overview",
     shopLinks: "Where to buy materials",
+    howToApply: "How to apply",
+    officialLink: "Visit official site",
     categories: { starter: "Basic Starter Ideas", under100: "Under ₹100 Startup Cost", under200: "Under ₹200 Startup Cost" },
     levels: { Beginner: "Beginner", Intermediate: "Intermediate", Advanced: "Advanced" },
   },
