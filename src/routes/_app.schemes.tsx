@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Search, ArrowRight, Landmark } from "lucide-react";
+import { Search, ArrowRight, Landmark, X, ExternalLink, CheckCircle2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useLang } from "@/lib/i18n";
+import type { Scheme } from "@/lib/translations";
 
 export const Route = createFileRoute("/_app/schemes")({
   head: () => ({
@@ -16,6 +17,7 @@ export const Route = createFileRoute("/_app/schemes")({
 function SchemesPage() {
   const { tr } = useLang();
   const [q, setQ] = useState("");
+  const [active, setActive] = useState<Scheme | null>(null);
   const list = useMemo(() => tr.schemes.list.filter((s) => (s.name + s.benefits + s.eligibility).toLowerCase().includes(q.toLowerCase())), [q, tr]);
   return (
     <>
@@ -46,7 +48,7 @@ function SchemesPage() {
                     <div><dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{tr.schemes.benefitsLabel}</dt><dd className="mt-1 text-foreground/85">{s.benefits}</dd></div>
                     <div><dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{tr.schemes.eligibilityLabel}</dt><dd className="mt-1 text-foreground/85">{s.eligibility}</dd></div>
                   </dl>
-                  <button className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:gap-2.5 transition-all">
+                  <button onClick={() => setActive(s)} className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:gap-2.5 transition-all">
                     {tr.common.learnMore} <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
@@ -56,6 +58,53 @@ function SchemesPage() {
           {list.length === 0 && <div className="md:col-span-2 rounded-3xl border border-dashed border-border bg-card p-10 text-center text-muted-foreground">{tr.schemes.empty}</div>}
         </div>
       </section>
+      {active && <SchemeModal scheme={active} onClose={() => setActive(null)} />}
     </>
+  );
+}
+
+function SchemeModal({ scheme, onClose }: { scheme: Scheme; onClose: () => void }) {
+  const { tr } = useLang();
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-foreground/60 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div onClick={(e) => e.stopPropagation()} className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-border bg-card shadow-warm">
+        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-border bg-card/95 p-6 backdrop-blur">
+          <div className="flex items-start gap-3">
+            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-warm text-primary-foreground shadow-soft"><Landmark className="h-5 w-5" /></div>
+            <h2 className="font-display text-xl font-semibold leading-tight">{scheme.name}</h2>
+          </div>
+          <button onClick={onClose} aria-label={tr.common.close} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border bg-background hover:bg-secondary">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        <div className="space-y-6 p-6">
+          <Section title={tr.schemes.descriptionLabel}><p className="text-foreground/85 text-sm">{scheme.description}</p></Section>
+          <Section title={tr.schemes.benefitsLabel}><p className="rounded-2xl bg-secondary/60 p-4 text-sm text-foreground/85">{scheme.benefits}</p></Section>
+          <Section title={tr.schemes.eligibilityLabel}><p className="text-sm text-foreground/85">{scheme.eligibility}</p></Section>
+          <Section title={tr.schemes.howToApplyLabel}>
+            <ol className="space-y-2.5">
+              {scheme.howToApply.map((s, i) => (
+                <li key={i} className="flex gap-3 text-sm">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-gradient-warm text-xs font-bold text-primary-foreground">{i + 1}</span>
+                  <span className="text-foreground/85">{s}</span>
+                </li>
+              ))}
+            </ol>
+          </Section>
+          <a href={scheme.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-semibold text-background hover:gap-3 transition-all">
+            <CheckCircle2 className="h-4 w-4" /> {tr.schemes.visitSite} <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h3 className="font-display text-lg font-semibold">{title}</h3>
+      <div className="mt-3">{children}</div>
+    </div>
   );
 }

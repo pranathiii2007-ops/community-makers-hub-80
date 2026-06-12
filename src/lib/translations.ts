@@ -15,7 +15,14 @@ export type Idea = {
   shopLinks?: { label: string; url: string }[];
 };
 
-export type Scheme = { name: string; benefits: string; eligibility: string };
+export type Scheme = {
+  name: string;
+  benefits: string;
+  eligibility: string;
+  description: string;
+  howToApply: string[];
+  link: string;
+};
 export type Story = { name: string; role: string; quote: string };
 export type Product = { name: string; price: string; seller: string; area: string; rating: number; image?: string };
 
@@ -38,6 +45,8 @@ export type Translation = {
     marketingTips: string;
     overview: string;
     shopLinks: string;
+    howToApply: string;
+    officialLink: string;
     categories: { starter: string; under100: string; under200: string };
     levels: { Beginner: string; Intermediate: string; Advanced: string };
   };
@@ -76,6 +85,9 @@ export type Translation = {
   schemes: {
     kicker: string; title: string; searchPh: string; empty: string;
     benefitsLabel: string; eligibilityLabel: string;
+    descriptionLabel: string;
+    howToApplyLabel: string;
+    visitSite: string;
     list: Scheme[];
   };
   about: {
@@ -131,6 +143,8 @@ const en: Translation = {
     marketingTips: "Marketing Tips",
     overview: "Overview",
     shopLinks: "Where to buy materials",
+    howToApply: "How to apply",
+    officialLink: "Visit official site",
     categories: { starter: "Basic Starter Ideas", under100: "Under ₹100 Startup Cost", under200: "Under ₹200 Startup Cost" },
     levels: { Beginner: "Beginner", Intermediate: "Intermediate", Advanced: "Advanced" },
   },
@@ -640,6 +654,12 @@ const en: Translation = {
       { name: "Greeting Card Pack", price: "₹99", seller: "Priya S.", area: "Tarnaka", rating: 4.6, image: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=800&q=80" },
       { name: "Hair Bow Set", price: "₹89", seller: "Sunitha K.", area: "Banjara Hills", rating: 4.5, image: "https://images.unsplash.com/photo-1620323040270-37431f2f9087?w=800&q=80" },
       { name: "Decorative Painted Jar", price: "₹199", seller: "Padma V.", area: "Dilsukhnagar", rating: 4.8, image: "https://images.unsplash.com/photo-1602928298849-325cec8771c0?w=800&q=80" },
+      { name: "Crochet Coaster Set (4)", price: "₹180", seller: "Padma V.", area: "Dilsukhnagar", rating: 4.7, image: "https://images.unsplash.com/photo-1604335079441-0f7b5e0e4b6d?w=800&q=80" },
+      { name: "Single Crochet Rose", price: "₹60", seller: "Padma V.", area: "Dilsukhnagar", rating: 4.8, image: "https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=800&q=80" },
+      { name: "Resin Heart Keychain", price: "₹80", seller: "Anitha R.", area: "Madhapur", rating: 4.6, image: "https://images.unsplash.com/photo-1591348122449-02525d70379b?w=800&q=80" },
+      { name: "Friendship Band Bundle (5)", price: "₹120", seller: "Priya S.", area: "Tarnaka", rating: 4.5, image: "https://images.unsplash.com/photo-1530021232320-687d8e3dba54?w=800&q=80" },
+      { name: "Handmade Beaded Keychain", price: "₹70", seller: "Priya S.", area: "Tarnaka", rating: 4.4, image: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&q=80" },
+      { name: "Hand-Knit Woollen Sweater", price: "₹1,200", seller: "Sunitha K.", area: "Banjara Hills", rating: 4.9, image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80" },
     ],
   },
   stories: {
@@ -668,13 +688,88 @@ const en: Translation = {
     empty: "No schemes match your search.",
     benefitsLabel: "Benefits",
     eligibilityLabel: "Eligibility",
+    descriptionLabel: "About the scheme",
+    howToApplyLabel: "How to apply",
+    visitSite: "Visit official site",
     list: [
-      { name: "Women Entrepreneurship Support (Stand-Up India)", benefits: "Loans of ₹10 lakh to ₹1 crore for women-led enterprises.", eligibility: "Women aged 18+ starting a greenfield enterprise." },
-      { name: "Self Help Group Assistance (DAY-NRLM)", benefits: "Revolving fund and community investment support for SHGs.", eligibility: "Registered SHGs with active savings for 3+ months." },
-      { name: "Skill Development Programs (PMKVY)", benefits: "Free certified skill training and placement support.", eligibility: "Indian citizens aged 15–45 with basic literacy." },
-      { name: "Startup Support Programs (Startup India Seed Fund)", benefits: "Grants up to ₹20 lakh for proof of concept and prototypes.", eligibility: "DPIIT-recognised startups under 2 years old." },
-      { name: "Mudra Loan (Shishu)", benefits: "Collateral-free loans up to ₹50,000 for micro-enterprises.", eligibility: "Non-corporate, non-farm small business owners." },
-      { name: "Mahila Coir Yojana", benefits: "Subsidy on motorised ratts for women coir artisans.", eligibility: "Women trained in coir spinning." },
+      {
+        name: "Women Entrepreneurship Support (Stand-Up India)",
+        benefits: "Loans of ₹10 lakh to ₹1 crore for women-led enterprises.",
+        eligibility: "Women aged 18+ starting a greenfield enterprise.",
+        description: "A government scheme by SIDBI and the Department of Financial Services to encourage women and SC/ST entrepreneurs to set up new manufacturing, services or trading enterprises.",
+        howToApply: [
+          "Visit the Stand-Up India portal and register with your basic details.",
+          "Prepare a simple business plan, ID proof, and project cost estimate.",
+          "Apply through your nearest scheduled commercial bank branch.",
+          "Bank assigns a handholding agency to guide you through approval.",
+        ],
+        link: "https://www.standupmitra.in/",
+      },
+      {
+        name: "Self Help Group Assistance (DAY-NRLM)",
+        benefits: "Revolving fund and community investment support for SHGs.",
+        eligibility: "Registered SHGs with active savings for 3+ months.",
+        description: "Deendayal Antyodaya Yojana – National Rural Livelihoods Mission supports women SHGs with seed capital, interest subvention and livelihood training.",
+        howToApply: [
+          "Form or join an SHG of 10–20 women in your village/ward.",
+          "Open a group savings account and run weekly meetings for 3 months.",
+          "Contact your Block Mission Management Unit or Anganwadi worker.",
+          "Apply through the state SRLM for revolving fund and community investment.",
+        ],
+        link: "https://aajeevika.gov.in/",
+      },
+      {
+        name: "Skill Development Programs (PMKVY)",
+        benefits: "Free certified skill training and placement support.",
+        eligibility: "Indian citizens aged 15–45 with basic literacy.",
+        description: "Pradhan Mantri Kaushal Vikas Yojana offers short-term training across 400+ job roles — from beautician and tailoring to electronics — with NSDC certification.",
+        howToApply: [
+          "Visit pmkvyofficial.org and find a training centre near you.",
+          "Register with Aadhaar and choose a course aligned with your interest.",
+          "Complete the short-term training (150–300 hours).",
+          "Receive certification and placement assistance from the centre.",
+        ],
+        link: "https://www.pmkvyofficial.org/",
+      },
+      {
+        name: "Startup Support Programs (Startup India Seed Fund)",
+        benefits: "Grants up to ₹20 lakh for proof of concept and prototypes.",
+        eligibility: "DPIIT-recognised startups under 2 years old.",
+        description: "Seed Fund Scheme provides early-stage capital to startups for proof of concept, prototype development, product trials and market entry.",
+        howToApply: [
+          "Register your startup on the Startup India portal and get DPIIT recognition.",
+          "Apply to an approved incubator via the Seed Fund portal.",
+          "Submit pitch deck, problem-solution fit and use-of-funds.",
+          "Incubator evaluates and disburses funds in milestones.",
+        ],
+        link: "https://seedfund.startupindia.gov.in/",
+      },
+      {
+        name: "Mudra Loan (Shishu)",
+        benefits: "Collateral-free loans up to ₹50,000 for micro-enterprises.",
+        eligibility: "Non-corporate, non-farm small business owners.",
+        description: "Pradhan Mantri Mudra Yojana – Shishu category supports very small entrepreneurs and home-based businesses with collateral-free working capital loans.",
+        howToApply: [
+          "Approach any public sector bank, NBFC or MFI that issues Mudra loans.",
+          "Fill the simple Shishu loan form with ID, address proof and quotation.",
+          "Bank reviews your activity proof and disburses within 2–3 weeks.",
+          "Repay in easy EMIs over 3–5 years.",
+        ],
+        link: "https://www.mudra.org.in/",
+      },
+      {
+        name: "Mahila Coir Yojana",
+        benefits: "Subsidy on motorised ratts for women coir artisans.",
+        eligibility: "Women trained in coir spinning.",
+        description: "A Coir Board scheme that gives women artisans 75% subsidy on motorised ratt (spinning equipment) to upgrade from manual spinning.",
+        howToApply: [
+          "Complete the 2-month coir spinning training from the Coir Board.",
+          "Apply to the nearest Coir Board regional office with training certificate.",
+          "Submit quotation for the motorised ratt from approved suppliers.",
+          "Receive 75% subsidy directly to your bank account on installation.",
+        ],
+        link: "https://coirboard.gov.in/",
+      },
     ],
   },
   about: {
@@ -739,6 +834,8 @@ const te: Translation = {
     marketingTips: "మార్కెటింగ్ సూచనలు",
     overview: "పరిచయం",
     shopLinks: "వస్తువులు ఎక్కడ కొనాలి",
+    howToApply: "ఎలా దరఖాస్తు చేయాలి",
+    officialLink: "అధికారిక సైట్‌ను సందర్శించండి",
     categories: { starter: "ప్రాథమిక ప్రారంభ ఆలోచనలు", under100: "₹100 లోపు ప్రారంభ ఖర్చు", under200: "₹200 లోపు ప్రారంభ ఖర్చు" },
     levels: { Beginner: "ప్రారంభకుడు", Intermediate: "మధ్యస్థాయి", Advanced: "నిపుణుడు" },
   },
@@ -1248,6 +1345,12 @@ const te: Translation = {
       { name: "గ్రీటింగ్ కార్డుల ప్యాక్", price: "₹99", seller: "ప్రియ ఎస్.", area: "తార్నాక", rating: 4.6, image: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=800&q=80" },
       { name: "హెయిర్ బో సెట్", price: "₹89", seller: "సునీత కె.", area: "బంజారా హిల్స్", rating: 4.5, image: "https://images.unsplash.com/photo-1620323040270-37431f2f9087?w=800&q=80" },
       { name: "అలంకరణ పెయింట్ జార్", price: "₹199", seller: "పద్మ వి.", area: "దిల్‌సుఖ్‌నగర్", rating: 4.8, image: "https://images.unsplash.com/photo-1602928298849-325cec8771c0?w=800&q=80" },
+      { name: "క్రోచెట్ కోస్టర్ సెట్ (4)", price: "₹180", seller: "పద్మ వి.", area: "దిల్‌సుఖ్‌నగర్", rating: 4.7, image: "https://images.unsplash.com/photo-1604335079441-0f7b5e0e4b6d?w=800&q=80" },
+      { name: "క్రోచెట్ గులాబీ (ఒకటి)", price: "₹60", seller: "పద్మ వి.", area: "దిల్‌సుఖ్‌నగర్", rating: 4.8, image: "https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=800&q=80" },
+      { name: "రెజిన్ హార్ట్ కీచైన్", price: "₹80", seller: "అనిత ఆర్.", area: "మాదాపూర్", rating: 4.6, image: "https://images.unsplash.com/photo-1591348122449-02525d70379b?w=800&q=80" },
+      { name: "ఫ్రెండ్‌షిప్ బ్యాండ్ బండిల్ (5)", price: "₹120", seller: "ప్రియ ఎస్.", area: "తార్నాక", rating: 4.5, image: "https://images.unsplash.com/photo-1530021232320-687d8e3dba54?w=800&q=80" },
+      { name: "హ్యాండ్‌మేడ్ పూసల కీచైన్", price: "₹70", seller: "ప్రియ ఎస్.", area: "తార్నాక", rating: 4.4, image: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&q=80" },
+      { name: "హ్యాండ్-నిట్ ఉన్ని స్వెటర్", price: "₹1,200", seller: "సునీత కె.", area: "బంజారా హిల్స్", rating: 4.9, image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80" },
     ],
   },
   stories: {
@@ -1276,13 +1379,88 @@ const te: Translation = {
     empty: "మీ శోధనకు సరిపోయే పథకాలు లేవు.",
     benefitsLabel: "ప్రయోజనాలు",
     eligibilityLabel: "అర్హత",
+    descriptionLabel: "పథకం గురించి",
+    howToApplyLabel: "ఎలా దరఖాస్తు చేయాలి",
+    visitSite: "అధికారిక సైట్‌ను సందర్శించండి",
     list: [
-      { name: "మహిళా వ్యవస్థాపకత మద్దతు (స్టాండ్-అప్ ఇండియా)", benefits: "మహిళలు నడిపే సంస్థలకు ₹10 లక్షల నుండి ₹1 కోటి వరకు రుణాలు.", eligibility: "గ్రీన్‌ఫీల్డ్ సంస్థను ప్రారంభించే 18+ సంవత్సరాల మహిళలు." },
-      { name: "స్వయం సహాయక సంఘ సహాయం (DAY-NRLM)", benefits: "SHGల కోసం రివాల్వింగ్ ఫండ్ మరియు సామాజిక పెట్టుబడి మద్దతు.", eligibility: "3+ నెలల చురుకైన పొదుపుతో నమోదైన SHGలు." },
-      { name: "నైపుణ్య అభివృద్ధి కార్యక్రమాలు (PMKVY)", benefits: "ఉచిత సర్టిఫైడ్ నైపుణ్య శిక్షణ మరియు ప్లేస్‌మెంట్ మద్దతు.", eligibility: "ప్రాథమిక అక్షరాస్యత గల 15–45 సంవత్సరాల భారతీయులు." },
-      { name: "స్టార్టప్ మద్దతు కార్యక్రమాలు (Startup India Seed Fund)", benefits: "ప్రూఫ్ ఆఫ్ కాన్సెప్ట్ మరియు ప్రోటోటైప్‌ల కోసం ₹20 లక్షల వరకు గ్రాంట్లు.", eligibility: "2 సంవత్సరాల లోపు DPIIT-గుర్తింపు పొందిన స్టార్టప్‌లు." },
-      { name: "ముద్రా రుణం (శిశు)", benefits: "మైక్రో-సంస్థలకు తాకట్టు లేకుండా ₹50,000 వరకు రుణాలు.", eligibility: "నాన్-కార్పొరేట్, నాన్-ఫామ్ చిన్న వ్యాపారవేత్తలు." },
-      { name: "మహిళా కయిర్ యోజన", benefits: "మహిళా కయిర్ కళాకారులకు మోటారైజ్డ్ రాట్‌లపై సబ్సిడీ.", eligibility: "కయిర్ స్పిన్నింగ్‌లో శిక్షణ పొందిన మహిళలు." },
+      {
+        name: "మహిళా వ్యవస్థాపకత మద్దతు (స్టాండ్-అప్ ఇండియా)",
+        benefits: "మహిళలు నడిపే సంస్థలకు ₹10 లక్షల నుండి ₹1 కోటి వరకు రుణాలు.",
+        eligibility: "గ్రీన్‌ఫీల్డ్ సంస్థను ప్రారంభించే 18+ సంవత్సరాల మహిళలు.",
+        description: "SIDBI మరియు ఆర్థిక సేవల శాఖ ద్వారా మహిళలు మరియు SC/ST వ్యవస్థాపకులను తయారీ, సేవలు లేదా వాణిజ్య సంస్థలను ప్రారంభించమని ప్రోత్సహించే పథకం.",
+        howToApply: [
+          "Stand-Up India పోర్టల్‌లో ప్రాథమిక వివరాలతో నమోదు చేసుకోండి.",
+          "సరళమైన వ్యాపార ప్రణాళిక, గుర్తింపు రుజువు, ప్రాజెక్ట్ ఖర్చు అంచనా సిద్ధం చేయండి.",
+          "మీ సమీప షెడ్యూల్డ్ కమర్షియల్ బ్యాంక్ శాఖలో దరఖాస్తు చేయండి.",
+          "బ్యాంక్ మీకు మార్గదర్శనం కోసం హ్యాండ్‌హోల్డింగ్ ఏజెన్సీని కేటాయిస్తుంది.",
+        ],
+        link: "https://www.standupmitra.in/",
+      },
+      {
+        name: "స్వయం సహాయక సంఘ సహాయం (DAY-NRLM)",
+        benefits: "SHGల కోసం రివాల్వింగ్ ఫండ్ మరియు సామాజిక పెట్టుబడి మద్దతు.",
+        eligibility: "3+ నెలల చురుకైన పొదుపుతో నమోదైన SHGలు.",
+        description: "దీన్‌దయాళ్ అంత్యోదయ యోజన – NRLM మహిళా SHGలకు సీడ్ క్యాపిటల్, వడ్డీ రాయితీ, జీవనోపాధి శిక్షణ అందిస్తుంది.",
+        howToApply: [
+          "మీ గ్రామం/వార్డులో 10–20 మంది మహిళలతో SHGని ఏర్పాటు చేయండి లేదా చేరండి.",
+          "గ్రూప్ సేవింగ్స్ ఖాతా తెరిచి 3 నెలలు వారపు సమావేశాలు నిర్వహించండి.",
+          "మీ బ్లాక్ మిషన్ యూనిట్ లేదా అంగన్‌వాడీ కార్యకర్తను సంప్రదించండి.",
+          "రాష్ట్ర SRLM ద్వారా రివాల్వింగ్ ఫండ్ కోసం దరఖాస్తు చేయండి.",
+        ],
+        link: "https://aajeevika.gov.in/",
+      },
+      {
+        name: "నైపుణ్య అభివృద్ధి కార్యక్రమాలు (PMKVY)",
+        benefits: "ఉచిత సర్టిఫైడ్ నైపుణ్య శిక్షణ మరియు ప్లేస్‌మెంట్ మద్దతు.",
+        eligibility: "ప్రాథమిక అక్షరాస్యత గల 15–45 సంవత్సరాల భారతీయులు.",
+        description: "ప్రధాన మంత్రి కౌశల్ వికాస్ యోజన 400+ ఉద్యోగ పాత్రలలో NSDC సర్టిఫికేషన్‌తో స్వల్పకాలిక శిక్షణ అందిస్తుంది.",
+        howToApply: [
+          "pmkvyofficial.org సందర్శించి సమీప శిక్షణా కేంద్రాన్ని కనుగొనండి.",
+          "ఆధార్‌తో నమోదు చేసి మీ ఆసక్తికి తగిన కోర్సును ఎంచుకోండి.",
+          "స్వల్పకాలిక శిక్షణ (150–300 గంటలు) పూర్తి చేయండి.",
+          "సర్టిఫికేషన్ మరియు ప్లేస్‌మెంట్ సహాయం పొందండి.",
+        ],
+        link: "https://www.pmkvyofficial.org/",
+      },
+      {
+        name: "స్టార్టప్ మద్దతు కార్యక్రమాలు (Startup India Seed Fund)",
+        benefits: "ప్రూఫ్ ఆఫ్ కాన్సెప్ట్ మరియు ప్రోటోటైప్‌ల కోసం ₹20 లక్షల వరకు గ్రాంట్లు.",
+        eligibility: "2 సంవత్సరాల లోపు DPIIT-గుర్తింపు పొందిన స్టార్టప్‌లు.",
+        description: "సీడ్ ఫండ్ స్కీం ప్రారంభ దశ స్టార్టప్‌లకు ప్రూఫ్ ఆఫ్ కాన్సెప్ట్, ప్రోటోటైప్, ఉత్పత్తి ట్రయల్స్ కోసం మూలధనం అందిస్తుంది.",
+        howToApply: [
+          "Startup India పోర్టల్‌లో నమోదు చేసి DPIIT గుర్తింపు పొందండి.",
+          "Seed Fund పోర్టల్ ద్వారా ఆమోదిత ఇంక్యుబేటర్‌కు దరఖాస్తు చేయండి.",
+          "పిచ్ డెక్, సమస్య-పరిష్కార సరిపోలిక సమర్పించండి.",
+          "ఇంక్యుబేటర్ మూల్యాంకనం చేసి దశలవారీగా ఫండ్ విడుదల చేస్తుంది.",
+        ],
+        link: "https://seedfund.startupindia.gov.in/",
+      },
+      {
+        name: "ముద్రా రుణం (శిశు)",
+        benefits: "మైక్రో-సంస్థలకు తాకట్టు లేకుండా ₹50,000 వరకు రుణాలు.",
+        eligibility: "నాన్-కార్పొరేట్, నాన్-ఫామ్ చిన్న వ్యాపారవేత్తలు.",
+        description: "ప్రధాన మంత్రి ముద్రా యోజన – శిశు విభాగం చిన్న ఇంటి ఆధారిత వ్యాపారాలకు తాకట్టు లేకుండా రుణాలు అందిస్తుంది.",
+        howToApply: [
+          "ముద్రా రుణాలు ఇచ్చే ఏదైనా ప్రభుత్వ బ్యాంక్, NBFC లేదా MFIని సంప్రదించండి.",
+          "ID, చిరునామా రుజువు, కోటేషన్‌తో సరళమైన శిశు ఫారం పూర్తి చేయండి.",
+          "బ్యాంక్ మీ కార్యకలాపాన్ని పరిశీలించి 2–3 వారాల్లో విడుదల చేస్తుంది.",
+          "3–5 సంవత్సరాలలో సులభమైన EMIలలో తిరిగి చెల్లించండి.",
+        ],
+        link: "https://www.mudra.org.in/",
+      },
+      {
+        name: "మహిళా కయిర్ యోజన",
+        benefits: "మహిళా కయిర్ కళాకారులకు మోటారైజ్డ్ రాట్‌లపై సబ్సిడీ.",
+        eligibility: "కయిర్ స్పిన్నింగ్‌లో శిక్షణ పొందిన మహిళలు.",
+        description: "మహిళా కళాకారులకు మోటారైజ్డ్ రాట్ (స్పిన్నింగ్ పరికరం)పై 75% సబ్సిడీ ఇచ్చే కయిర్ బోర్డు పథకం.",
+        howToApply: [
+          "కయిర్ బోర్డు నుండి 2-నెలల కయిర్ స్పిన్నింగ్ శిక్షణ పూర్తి చేయండి.",
+          "శిక్షణ సర్టిఫికేట్‌తో సమీప కయిర్ బోర్డు ప్రాంతీయ కార్యాలయానికి దరఖాస్తు చేయండి.",
+          "ఆమోదిత సరఫరాదారుల నుండి మోటారైజ్డ్ రాట్ కోటేషన్ సమర్పించండి.",
+          "ఇన్‌స్టాలేషన్‌పై మీ బ్యాంక్ ఖాతాకు 75% సబ్సిడీ నేరుగా అందుతుంది.",
+        ],
+        link: "https://coirboard.gov.in/",
+      },
     ],
   },
   about: {
