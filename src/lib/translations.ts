@@ -654,6 +654,12 @@ const en: Translation = {
       { name: "Greeting Card Pack", price: "₹99", seller: "Priya S.", area: "Tarnaka", rating: 4.6, image: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=800&q=80" },
       { name: "Hair Bow Set", price: "₹89", seller: "Sunitha K.", area: "Banjara Hills", rating: 4.5, image: "https://images.unsplash.com/photo-1620323040270-37431f2f9087?w=800&q=80" },
       { name: "Decorative Painted Jar", price: "₹199", seller: "Padma V.", area: "Dilsukhnagar", rating: 4.8, image: "https://images.unsplash.com/photo-1602928298849-325cec8771c0?w=800&q=80" },
+      { name: "Crochet Coaster Set (4)", price: "₹180", seller: "Padma V.", area: "Dilsukhnagar", rating: 4.7, image: "https://images.unsplash.com/photo-1604335079441-0f7b5e0e4b6d?w=800&q=80" },
+      { name: "Single Crochet Rose", price: "₹60", seller: "Padma V.", area: "Dilsukhnagar", rating: 4.8, image: "https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=800&q=80" },
+      { name: "Resin Heart Keychain", price: "₹80", seller: "Anitha R.", area: "Madhapur", rating: 4.6, image: "https://images.unsplash.com/photo-1591348122449-02525d70379b?w=800&q=80" },
+      { name: "Friendship Band Bundle (5)", price: "₹120", seller: "Priya S.", area: "Tarnaka", rating: 4.5, image: "https://images.unsplash.com/photo-1530021232320-687d8e3dba54?w=800&q=80" },
+      { name: "Handmade Beaded Keychain", price: "₹70", seller: "Priya S.", area: "Tarnaka", rating: 4.4, image: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&q=80" },
+      { name: "Hand-Knit Woollen Sweater", price: "₹1,200", seller: "Sunitha K.", area: "Banjara Hills", rating: 4.9, image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80" },
     ],
   },
   stories: {
