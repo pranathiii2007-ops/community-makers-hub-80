@@ -41,7 +41,15 @@ function MarketplacePage() {
           {tr.market.products.map((p, i) => (
             <article key={i} className="group overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:shadow-warm">
               <div className="relative overflow-hidden">
-              <img src={p.image ?? FALLBACK[i % FALLBACK.length]} alt={p.name} width={800} height={800} loading="lazy" className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105" />
+              <img
+                src={p.image ?? FALLBACK[i % FALLBACK.length]}
+                alt={p.name}
+                width={800}
+                height={800}
+                loading="lazy"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).src = FALLBACK[i % FALLBACK.length]; }}
+                className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
+              />
                 <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-background/90 px-2.5 py-1 text-xs font-semibold shadow-soft backdrop-blur">
                   <Star className="h-3 w-3 fill-mustard text-mustard" />
                   {p.rating}
