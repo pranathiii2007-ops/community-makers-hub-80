@@ -15,7 +15,14 @@ export type Idea = {
   shopLinks?: { label: string; url: string }[];
 };
 
-export type Scheme = { name: string; benefits: string; eligibility: string };
+export type Scheme = {
+  name: string;
+  benefits: string;
+  eligibility: string;
+  description: string;
+  howToApply: string[];
+  link: string;
+};
 export type Story = { name: string; role: string; quote: string };
 export type Product = { name: string; price: string; seller: string; area: string; rating: number; image?: string };
 
@@ -38,6 +45,8 @@ export type Translation = {
     marketingTips: string;
     overview: string;
     shopLinks: string;
+    howToApply: string;
+    officialLink: string;
     categories: { starter: string; under100: string; under200: string };
     levels: { Beginner: string; Intermediate: string; Advanced: string };
   };
@@ -76,6 +85,9 @@ export type Translation = {
   schemes: {
     kicker: string; title: string; searchPh: string; empty: string;
     benefitsLabel: string; eligibilityLabel: string;
+    descriptionLabel: string;
+    howToApplyLabel: string;
+    visitSite: string;
     list: Scheme[];
   };
   about: {
