@@ -1345,6 +1345,12 @@ const te: Translation = {
       { name: "గ్రీటింగ్ కార్డుల ప్యాక్", price: "₹99", seller: "ప్రియ ఎస్.", area: "తార్నాక", rating: 4.6, image: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=800&q=80" },
       { name: "హెయిర్ బో సెట్", price: "₹89", seller: "సునీత కె.", area: "బంజారా హిల్స్", rating: 4.5, image: "https://images.unsplash.com/photo-1620323040270-37431f2f9087?w=800&q=80" },
       { name: "అలంకరణ పెయింట్ జార్", price: "₹199", seller: "పద్మ వి.", area: "దిల్‌సుఖ్‌నగర్", rating: 4.8, image: "https://images.unsplash.com/photo-1602928298849-325cec8771c0?w=800&q=80" },
+      { name: "క్రోచెట్ కోస్టర్ సెట్ (4)", price: "₹180", seller: "పద్మ వి.", area: "దిల్‌సుఖ్‌నగర్", rating: 4.7, image: "https://images.unsplash.com/photo-1604335079441-0f7b5e0e4b6d?w=800&q=80" },
+      { name: "క్రోచెట్ గులాబీ (ఒకటి)", price: "₹60", seller: "పద్మ వి.", area: "దిల్‌సుఖ్‌నగర్", rating: 4.8, image: "https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=800&q=80" },
+      { name: "రెజిన్ హార్ట్ కీచైన్", price: "₹80", seller: "అనిత ఆర్.", area: "మాదాపూర్", rating: 4.6, image: "https://images.unsplash.com/photo-1591348122449-02525d70379b?w=800&q=80" },
+      { name: "ఫ్రెండ్‌షిప్ బ్యాండ్ బండిల్ (5)", price: "₹120", seller: "ప్రియ ఎస్.", area: "తార్నాక", rating: 4.5, image: "https://images.unsplash.com/photo-1530021232320-687d8e3dba54?w=800&q=80" },
+      { name: "హ్యాండ్‌మేడ్ పూసల కీచైన్", price: "₹70", seller: "ప్రియ ఎస్.", area: "తార్నాక", rating: 4.4, image: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&q=80" },
+      { name: "హ్యాండ్-నిట్ ఉన్ని స్వెటర్", price: "₹1,200", seller: "సునీత కె.", area: "బంజారా హిల్స్", rating: 4.9, image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80" },
     ],
   },
   stories: {
