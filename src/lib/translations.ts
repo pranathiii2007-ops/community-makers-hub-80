@@ -828,6 +828,8 @@ const te: Translation = {
     marketingTips: "మార్కెటింగ్ సూచనలు",
     overview: "పరిచయం",
     shopLinks: "వస్తువులు ఎక్కడ కొనాలి",
+    howToApply: "ఎలా దరఖాస్తు చేయాలి",
+    officialLink: "అధికారిక సైట్‌ను సందర్శించండి",
     categories: { starter: "ప్రాథమిక ప్రారంభ ఆలోచనలు", under100: "₹100 లోపు ప్రారంభ ఖర్చు", under200: "₹200 లోపు ప్రారంభ ఖర్చు" },
     levels: { Beginner: "ప్రారంభకుడు", Intermediate: "మధ్యస్థాయి", Advanced: "నిపుణుడు" },
   },
