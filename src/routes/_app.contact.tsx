@@ -69,7 +69,7 @@ function ContactPage() {
               <Field label={tr.contact.name} name="name" placeholder={tr.contact.namePh} />
               <Field label={tr.contact.email} name="email" type="email" placeholder={tr.contact.emailPh} />
             </div>
-            <Field label={tr.contact.subject} name="subject" placeholder={tr.contact.subjectPh} className="mt-4" />
+            <Field label={tr.contact.subject} name="business_name" placeholder={tr.contact.subjectPh} className="mt-4" />
             <div className="mt-4">
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{tr.contact.message}</label>
               <textarea required name="message" rows={5} className="mt-1.5 w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary" placeholder={tr.contact.messagePh} />
