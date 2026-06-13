@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Sparkles, Globe } from "lucide-react";
+import { Menu, X, Sparkles, Globe, Store } from "lucide-react";
 import { useLang, type Lang } from "@/lib/i18n";
 
 export function Navbar() {
@@ -21,13 +21,22 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3">
-        <Link to="/home" className="group flex items-center gap-2.5">
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-warm text-primary-foreground shadow-soft transition-transform group-hover:rotate-6">
-            <Sparkles className="h-5 w-5" />
-          </span>
+        <Link to="/home" className="group flex items-center gap-3">
+          <div className="relative">
+            <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-warm text-primary-foreground shadow-soft transition-transform group-hover:scale-105 group-hover:rotate-3 border border-white/20">
+              <Store className="h-5.5 w-5.5" />
+            </span>
+            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-sm animate-pulse">
+              <Sparkles className="h-2.5 w-2.5" />
+            </span>
+          </div>
           <div className="leading-tight">
-            <div className="font-display text-lg font-semibold tracking-tight">Community Makers'</div>
-            <div className="-mt-0.5 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Market</div>
+            <div className="font-display text-xl font-bold tracking-tight text-foreground">
+              Community <span className="text-primary font-extrabold">Makers'</span>
+            </div>
+            <div className="-mt-0.5 text-[10px] uppercase tracking-[0.25em] text-muted-foreground font-bold">
+              Market
+            </div>
           </div>
         </Link>
 

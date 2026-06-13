@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Sparkles, Mail, Phone, Instagram, Facebook, Youtube, MapPin } from "lucide-react";
+import { Sparkles, Mail, Phone, Instagram, Facebook, Youtube, MapPin, Store } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 
 export function Footer() {
@@ -8,11 +8,23 @@ export function Footer() {
     <footer className="mt-24 border-t border-border bg-gradient-to-b from-background to-secondary/40">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-4">
         <div className="md:col-span-2 max-w-md">
-          <div className="flex items-center gap-2.5">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-warm text-primary-foreground shadow-soft">
-              <Sparkles className="h-5 w-5" />
-            </span>
-            <span className="font-display text-xl font-semibold">Community Makers' Market</span>
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-warm text-primary-foreground shadow-soft border border-white/20">
+                <Store className="h-5.5 w-5.5" />
+              </span>
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-sm">
+                <Sparkles className="h-2.5 w-2.5" />
+              </span>
+            </div>
+            <div className="leading-tight">
+              <div className="font-display text-xl font-bold tracking-tight text-foreground">
+                Community <span className="text-primary font-extrabold">Makers'</span>
+              </div>
+              <div className="-mt-0.5 text-[10px] uppercase tracking-[0.25em] text-muted-foreground font-bold">
+                Market
+              </div>
+            </div>
           </div>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             {tr.footer.tagline}

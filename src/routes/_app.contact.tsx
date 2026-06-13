@@ -16,6 +16,38 @@ export const Route = createFileRoute("/_app/contact")({
 function ContactPage() {
   const { tr } = useLang();
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setError(null);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
+    try {
+      const response = await fetch("https://formspree.io/f/xojzknae", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      if (response.ok) {
+        setSent(true);
+        form.reset();
+      } else {
+        const data = await response.json();
+        setError(data.error || "Failed to send message. Please try again.");
+      }
+    } catch (err) {
+      setError("Failed to send message. Please check your internet connection.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <>
       <section className="border-b border-border bg-gradient-sunrise/60">
@@ -30,7 +62,7 @@ function ContactPage() {
       <section className="py-16">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[1.2fr_1fr]">
           <form
-            onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+            onSubmit={handleSubmit}
             className="rounded-3xl border border-border bg-card p-8 shadow-soft"
           >
             <div className="grid gap-4 sm:grid-cols-2">
@@ -40,10 +72,15 @@ function ContactPage() {
             <Field label={tr.contact.subject} name="subject" placeholder={tr.contact.subjectPh} className="mt-4" />
             <div className="mt-4">
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{tr.contact.message}</label>
-              <textarea required rows={5} className="mt-1.5 w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary" placeholder={tr.contact.messagePh} />
+              <textarea required name="message" rows={5} className="mt-1.5 w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary" placeholder={tr.contact.messagePh} />
             </div>
-            <button type="submit" className="mt-6 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-semibold text-background shadow-warm transition hover:gap-3">
-              {sent ? tr.contact.sent : <>{tr.contact.send} <Send className="h-4 w-4" /></>}
+            {error && (
+              <div className="mt-4 text-sm text-destructive font-medium">
+                {error}
+              </div>
+            )}
+            <button type="submit" disabled={submitting} className="mt-6 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-semibold text-background shadow-warm transition hover:gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
+              {sent ? tr.contact.sent : submitting ? "Sending..." : <>{tr.contact.send} <Send className="h-4 w-4" /></>}
             </button>
           </form>
 
