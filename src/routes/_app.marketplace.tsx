@@ -1,12 +1,35 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MessageCircle, Star, MapPin } from "lucide-react";
-import candles from "@/assets/product-candles.jpg";
-import crafts from "@/assets/product-crafts.jpg";
-import snacks from "@/assets/product-snacks.jpg";
-import gifts from "@/assets/product-gifts.jpg";
+import candlesImg from "@/assets/m-candles.jpg";
+import soapImg from "@/assets/m-soap.jpg";
+import pickleImg from "@/assets/m-pickle.jpg";
+import chocolatesImg from "@/assets/m-chocolates.jpg";
+import braceletImg from "@/assets/m-bracelet.jpg";
+import crochetBouquetImg from "@/assets/m-crochet-bouquet.jpg";
+import resinKeyImg from "@/assets/m-resin-key.jpg";
+import toteImg from "@/assets/m-tote.jpg";
+import mugImg from "@/assets/m-mug.jpg";
+import cardsImg from "@/assets/m-cards.jpg";
+import hairbowImg from "@/assets/m-hairbow.jpg";
+import jarImg from "@/assets/m-jar.jpg";
+import coastersImg from "@/assets/m-coasters.jpg";
+import crochetRoseImg from "@/assets/m-crochet-rose.jpg";
+import resinHeartImg from "@/assets/m-resin-heart.jpg";
+import friendshipImg from "@/assets/m-friendship.jpg";
+import beadedKeyImg from "@/assets/m-beaded-key.jpg";
+import sweaterImg from "@/assets/m-sweater.jpg";
 import { useLang } from "@/lib/i18n";
 
-const FALLBACK = [candles, crafts, snacks, gifts];
+// Index-aligned with translations.market.products so the picture matches
+// the actual handmade item regardless of language.
+const PRODUCT_IMAGES = [
+  candlesImg, soapImg, pickleImg, chocolatesImg,
+  braceletImg, crochetBouquetImg, resinKeyImg, toteImg,
+  mugImg, cardsImg, hairbowImg, jarImg,
+  coastersImg, crochetRoseImg, resinHeartImg, friendshipImg,
+  beadedKeyImg, sweaterImg,
+];
+const FALLBACK = candlesImg;
 
 export const Route = createFileRoute("/_app/marketplace")({
   head: () => ({
@@ -42,12 +65,12 @@ function MarketplacePage() {
             <article key={i} className="group overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:shadow-warm">
               <div className="relative overflow-hidden">
               <img
-                src={p.image ?? FALLBACK[i % FALLBACK.length]}
+                src={PRODUCT_IMAGES[i] ?? FALLBACK}
                 alt={p.name}
                 width={800}
                 height={800}
                 loading="lazy"
-                onError={(e) => { (e.currentTarget as HTMLImageElement).src = FALLBACK[i % FALLBACK.length]; }}
+                onError={(e) => { (e.currentTarget as HTMLImageElement).src = FALLBACK; }}
                 className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
               />
                 <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-background/90 px-2.5 py-1 text-xs font-semibold shadow-soft backdrop-blur">
