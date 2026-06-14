@@ -12,6 +12,7 @@ export function Navbar() {
     { to: "/home", label: t("nav.home") },
     { to: "/business-ideas", label: t("nav.ideas") },
     { to: "/marketplace", label: t("nav.market") },
+    { to: "/dashboard", label: "Sell" },
     { to: "/success-stories", label: t("nav.stories") },
     { to: "/schemes", label: t("nav.schemes") },
     { to: "/about", label: t("nav.about") },
