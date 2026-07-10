@@ -47,9 +47,9 @@ export const Route = createFileRoute("/_app/marketplace")({
 });
 
 type DbProduct = {
-  id: string; name: string; price: number; image_url: string;
+  id: string; seller_id: string; name: string; price: number; image_url: string;
   area: string | null; discount_percent: number;
-  profiles?: { shop_name: string } | null;
+  shop_name?: string;
   avg_rating?: number;
 };
 
@@ -61,21 +61,26 @@ function MarketplacePage() {
     (async () => {
       const { data } = await supabase
         .from("products")
-        .select("id,name,price,image_url,area,discount_percent,seller_id,profiles(shop_name)")
+        .select("id,seller_id,name,price,image_url,area,discount_percent")
         .order("created_at", { ascending: false });
-      if (!data) return;
+      if (!data || data.length === 0) return;
       const ids = data.map((p) => p.id);
-      let ratings: Record<string, { sum: number; n: number }> = {};
-      if (ids.length) {
-        const { data: revs } = await supabase.from("reviews").select("product_id,rating").in("product_id", ids);
-        (revs ?? []).forEach((r) => {
-          const cur = ratings[r.product_id] ?? { sum: 0, n: 0 };
-          cur.sum += r.rating; cur.n += 1;
-          ratings[r.product_id] = cur;
-        });
-      }
+      const sellerIds = Array.from(new Set(data.map((p) => p.seller_id)));
+      const [{ data: revs }, { data: profs }] = await Promise.all([
+        supabase.from("reviews").select("product_id,rating").in("product_id", ids),
+        supabase.from("profiles").select("id,shop_name").in("id", sellerIds),
+      ]);
+      const ratings: Record<string, { sum: number; n: number }> = {};
+      (revs ?? []).forEach((r) => {
+        const cur = ratings[r.product_id] ?? { sum: 0, n: 0 };
+        cur.sum += r.rating; cur.n += 1;
+        ratings[r.product_id] = cur;
+      });
+      const shopMap = new Map<string, string>();
+      (profs ?? []).forEach((p) => shopMap.set(p.id, p.shop_name));
       setDbProducts(data.map((p) => ({
-        ...(p as DbProduct),
+        ...p,
+        shop_name: shopMap.get(p.seller_id),
         avg_rating: ratings[p.id] ? ratings[p.id].sum / ratings[p.id].n : 0,
       })));
     })();
@@ -119,7 +124,7 @@ function MarketplacePage() {
                 <div className="p-5">
                   <h3 className="font-display text-lg font-semibold leading-tight">{p.name}</h3>
                   <div className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <MapPin className="h-3 w-3" /> {p.profiles?.shop_name ?? "Local seller"}{p.area ? ` · ${p.area}` : ""}
+                    <MapPin className="h-3 w-3" /> {p.shop_name ?? "Local seller"}{p.area ? ` · ${p.area}` : ""}
                   </div>
                   <div className="mt-4 flex items-center justify-between">
                     <div>
