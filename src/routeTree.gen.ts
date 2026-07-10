@@ -20,6 +20,7 @@ import { Route as AppContactRouteImport } from './routes/_app.contact'
 import { Route as AppBusinessIdeasRouteImport } from './routes/_app.business-ideas'
 import { Route as AppAuthRouteImport } from './routes/_app.auth'
 import { Route as AppAboutRouteImport } from './routes/_app.about'
+import { Route as AppProductIdRouteImport } from './routes/_app.product.$id'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -75,6 +76,11 @@ const AppAboutRoute = AppAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => AppRoute,
 } as any)
+const AppProductIdRoute = AppProductIdRouteImport.update({
+  id: '/product/$id',
+  path: '/product/$id',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/marketplace': typeof AppMarketplaceRoute
   '/schemes': typeof AppSchemesRoute
   '/success-stories': typeof AppSuccessStoriesRoute
+  '/product/$id': typeof AppProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/marketplace': typeof AppMarketplaceRoute
   '/schemes': typeof AppSchemesRoute
   '/success-stories': typeof AppSuccessStoriesRoute
+  '/product/$id': typeof AppProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/_app/marketplace': typeof AppMarketplaceRoute
   '/_app/schemes': typeof AppSchemesRoute
   '/_app/success-stories': typeof AppSuccessStoriesRoute
+  '/_app/product/$id': typeof AppProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/schemes'
     | '/success-stories'
+    | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/schemes'
     | '/success-stories'
+    | '/product/$id'
   id:
     | '__root__'
     | '/'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/_app/marketplace'
     | '/_app/schemes'
     | '/_app/success-stories'
+    | '/_app/product/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -238,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAboutRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/product/$id': {
+      id: '/_app/product/$id'
+      path: '/product/$id'
+      fullPath: '/product/$id'
+      preLoaderRoute: typeof AppProductIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -251,6 +270,7 @@ interface AppRouteChildren {
   AppMarketplaceRoute: typeof AppMarketplaceRoute
   AppSchemesRoute: typeof AppSchemesRoute
   AppSuccessStoriesRoute: typeof AppSuccessStoriesRoute
+  AppProductIdRoute: typeof AppProductIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -263,6 +283,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppMarketplaceRoute: AppMarketplaceRoute,
   AppSchemesRoute: AppSchemesRoute,
   AppSuccessStoriesRoute: AppSuccessStoriesRoute,
+  AppProductIdRoute: AppProductIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
