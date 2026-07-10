@@ -15,7 +15,6 @@ import { Route as AppSuccessStoriesRouteImport } from './routes/_app.success-sto
 import { Route as AppSchemesRouteImport } from './routes/_app.schemes'
 import { Route as AppMarketplaceRouteImport } from './routes/_app.marketplace'
 import { Route as AppHomeRouteImport } from './routes/_app.home'
-import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppContactRouteImport } from './routes/_app.contact'
 import { Route as AppBusinessIdeasRouteImport } from './routes/_app.business-ideas'
 import { Route as AppAuthRouteImport } from './routes/_app.auth'
@@ -50,11 +49,6 @@ const AppHomeRoute = AppHomeRouteImport.update({
   path: '/home',
   getParentRoute: () => AppRoute,
 } as any)
-const AppDashboardRoute = AppDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppContactRoute = AppContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -82,7 +76,6 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AppAuthRoute
   '/business-ideas': typeof AppBusinessIdeasRoute
   '/contact': typeof AppContactRoute
-  '/dashboard': typeof AppDashboardRoute
   '/home': typeof AppHomeRoute
   '/marketplace': typeof AppMarketplaceRoute
   '/schemes': typeof AppSchemesRoute
@@ -94,7 +87,6 @@ export interface FileRoutesByTo {
   '/auth': typeof AppAuthRoute
   '/business-ideas': typeof AppBusinessIdeasRoute
   '/contact': typeof AppContactRoute
-  '/dashboard': typeof AppDashboardRoute
   '/home': typeof AppHomeRoute
   '/marketplace': typeof AppMarketplaceRoute
   '/schemes': typeof AppSchemesRoute
@@ -108,7 +100,6 @@ export interface FileRoutesById {
   '/_app/auth': typeof AppAuthRoute
   '/_app/business-ideas': typeof AppBusinessIdeasRoute
   '/_app/contact': typeof AppContactRoute
-  '/_app/dashboard': typeof AppDashboardRoute
   '/_app/home': typeof AppHomeRoute
   '/_app/marketplace': typeof AppMarketplaceRoute
   '/_app/schemes': typeof AppSchemesRoute
@@ -122,7 +113,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/business-ideas'
     | '/contact'
-    | '/dashboard'
     | '/home'
     | '/marketplace'
     | '/schemes'
@@ -134,7 +124,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/business-ideas'
     | '/contact'
-    | '/dashboard'
     | '/home'
     | '/marketplace'
     | '/schemes'
@@ -147,7 +136,6 @@ export interface FileRouteTypes {
     | '/_app/auth'
     | '/_app/business-ideas'
     | '/_app/contact'
-    | '/_app/dashboard'
     | '/_app/home'
     | '/_app/marketplace'
     | '/_app/schemes'
@@ -203,13 +191,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHomeRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/dashboard': {
-      id: '/_app/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AppDashboardRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/contact': {
       id: '/_app/contact'
       path: '/contact'
@@ -246,7 +227,6 @@ interface AppRouteChildren {
   AppAuthRoute: typeof AppAuthRoute
   AppBusinessIdeasRoute: typeof AppBusinessIdeasRoute
   AppContactRoute: typeof AppContactRoute
-  AppDashboardRoute: typeof AppDashboardRoute
   AppHomeRoute: typeof AppHomeRoute
   AppMarketplaceRoute: typeof AppMarketplaceRoute
   AppSchemesRoute: typeof AppSchemesRoute
@@ -258,7 +238,6 @@ const AppRouteChildren: AppRouteChildren = {
   AppAuthRoute: AppAuthRoute,
   AppBusinessIdeasRoute: AppBusinessIdeasRoute,
   AppContactRoute: AppContactRoute,
-  AppDashboardRoute: AppDashboardRoute,
   AppHomeRoute: AppHomeRoute,
   AppMarketplaceRoute: AppMarketplaceRoute,
   AppSchemesRoute: AppSchemesRoute,
