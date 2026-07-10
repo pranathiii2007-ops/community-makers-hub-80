@@ -18,6 +18,7 @@ import { Route as AppHomeRouteImport } from './routes/_app.home'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppContactRouteImport } from './routes/_app.contact'
 import { Route as AppBusinessIdeasRouteImport } from './routes/_app.business-ideas'
+import { Route as AppAuthRouteImport } from './routes/_app.auth'
 import { Route as AppAboutRouteImport } from './routes/_app.about'
 
 const AppRoute = AppRouteImport.update({
@@ -64,6 +65,11 @@ const AppBusinessIdeasRoute = AppBusinessIdeasRouteImport.update({
   path: '/business-ideas',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAuthRoute = AppAuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAboutRoute = AppAboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -73,6 +79,7 @@ const AppAboutRoute = AppAboutRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AppAboutRoute
+  '/auth': typeof AppAuthRoute
   '/business-ideas': typeof AppBusinessIdeasRoute
   '/contact': typeof AppContactRoute
   '/dashboard': typeof AppDashboardRoute
@@ -84,6 +91,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AppAboutRoute
+  '/auth': typeof AppAuthRoute
   '/business-ideas': typeof AppBusinessIdeasRoute
   '/contact': typeof AppContactRoute
   '/dashboard': typeof AppDashboardRoute
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/_app/about': typeof AppAboutRoute
+  '/_app/auth': typeof AppAuthRoute
   '/_app/business-ideas': typeof AppBusinessIdeasRoute
   '/_app/contact': typeof AppContactRoute
   '/_app/dashboard': typeof AppDashboardRoute
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/auth'
     | '/business-ideas'
     | '/contact'
     | '/dashboard'
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/auth'
     | '/business-ideas'
     | '/contact'
     | '/dashboard'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_app'
     | '/_app/about'
+    | '/_app/auth'
     | '/_app/business-ideas'
     | '/_app/contact'
     | '/_app/dashboard'
@@ -212,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBusinessIdeasRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/auth': {
+      id: '/_app/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AppAuthRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/about': {
       id: '/_app/about'
       path: '/about'
@@ -224,6 +243,7 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppAboutRoute: typeof AppAboutRoute
+  AppAuthRoute: typeof AppAuthRoute
   AppBusinessIdeasRoute: typeof AppBusinessIdeasRoute
   AppContactRoute: typeof AppContactRoute
   AppDashboardRoute: typeof AppDashboardRoute
@@ -235,6 +255,7 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppAboutRoute: AppAboutRoute,
+  AppAuthRoute: AppAuthRoute,
   AppBusinessIdeasRoute: AppBusinessIdeasRoute,
   AppContactRoute: AppContactRoute,
   AppDashboardRoute: AppDashboardRoute,
