@@ -1,18 +1,19 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Sparkles, Globe, Store } from "lucide-react";
+import { Menu, X, Sparkles, Globe, Store, LogIn, LayoutDashboard } from "lucide-react";
 import { useLang, type Lang } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
 
 export function Navbar() {
   const { t, lang, setLang } = useLang();
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user } = useAuth();
 
   const items = [
     { to: "/home", label: t("nav.home") },
     { to: "/business-ideas", label: t("nav.ideas") },
     { to: "/marketplace", label: t("nav.market") },
-    { to: "/dashboard", label: "Sell" },
     { to: "/success-stories", label: t("nav.stories") },
     { to: "/schemes", label: t("nav.schemes") },
     { to: "/about", label: t("nav.about") },
@@ -59,6 +60,17 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          {user ? (
+            <Link to="/dashboard"
+              className="hidden items-center gap-1.5 rounded-full bg-primary px-3.5 py-2 text-xs font-semibold text-primary-foreground shadow-soft hover:opacity-90 sm:inline-flex">
+              <LayoutDashboard className="h-3.5 w-3.5" /> Dashboard
+            </Link>
+          ) : (
+            <Link to="/auth"
+              className="hidden items-center gap-1.5 rounded-full bg-foreground px-3.5 py-2 text-xs font-semibold text-background shadow-soft hover:opacity-90 sm:inline-flex">
+              <LogIn className="h-3.5 w-3.5" /> Sell / Sign in
+            </Link>
+          )}
           <div className="hidden items-center gap-1 rounded-full border border-border bg-card px-1 py-1 sm:flex">
             <Globe className="ml-2 h-3.5 w-3.5 text-muted-foreground" />
             {(["en", "te"] as Lang[]).map((l) => (
@@ -96,6 +108,10 @@ export function Navbar() {
                 {i.label}
               </Link>
             ))}
+            <Link to={user ? "/dashboard" : "/auth"} onClick={() => setOpen(false)}
+              className="mt-1 rounded-lg bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground">
+              {user ? "Dashboard" : "Sell / Sign in"}
+            </Link>
           </div>
         </div>
       )}
