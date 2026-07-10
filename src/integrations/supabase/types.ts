@@ -14,7 +14,145 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      inquiries: {
+        Row: {
+          buyer_name: string
+          created_at: string
+          id: string
+          message: string
+          phone: string
+          product_id: string
+          read: boolean
+          seller_id: string
+        }
+        Insert: {
+          buyer_name: string
+          created_at?: string
+          id?: string
+          message: string
+          phone: string
+          product_id: string
+          read?: boolean
+          seller_id: string
+        }
+        Update: {
+          buyer_name?: string
+          created_at?: string
+          id?: string
+          message?: string
+          phone?: string
+          product_id?: string
+          read?: boolean
+          seller_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inquiries_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          area: string | null
+          created_at: string
+          description: string | null
+          discount_percent: number
+          id: string
+          image_url: string
+          name: string
+          price: number
+          seller_id: string
+        }
+        Insert: {
+          area?: string | null
+          created_at?: string
+          description?: string | null
+          discount_percent?: number
+          id?: string
+          image_url: string
+          name: string
+          price: number
+          seller_id: string
+        }
+        Update: {
+          area?: string | null
+          created_at?: string
+          description?: string | null
+          discount_percent?: number
+          id?: string
+          image_url?: string
+          name?: string
+          price?: number
+          seller_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          area: string | null
+          created_at: string
+          id: string
+          phone: string | null
+          shop_name: string
+        }
+        Insert: {
+          area?: string | null
+          created_at?: string
+          id: string
+          phone?: string | null
+          shop_name?: string
+        }
+        Update: {
+          area?: string | null
+          created_at?: string
+          id?: string
+          phone?: string | null
+          shop_name?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          comment: string | null
+          created_at: string
+          id: string
+          product_id: string
+          rating: number
+          reviewer_id: string
+          reviewer_name: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          product_id: string
+          rating: number
+          reviewer_id: string
+          reviewer_name: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          product_id?: string
+          rating?: number
+          reviewer_id?: string
+          reviewer_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
