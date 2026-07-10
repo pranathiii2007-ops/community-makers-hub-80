@@ -18,7 +18,9 @@ import { Route as AppHomeRouteImport } from './routes/_app.home'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppContactRouteImport } from './routes/_app.contact'
 import { Route as AppBusinessIdeasRouteImport } from './routes/_app.business-ideas'
+import { Route as AppAuthRouteImport } from './routes/_app.auth'
 import { Route as AppAboutRouteImport } from './routes/_app.about'
+import { Route as AppProductIdRouteImport } from './routes/_app.product.$id'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -64,15 +66,26 @@ const AppBusinessIdeasRoute = AppBusinessIdeasRouteImport.update({
   path: '/business-ideas',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAuthRoute = AppAuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAboutRoute = AppAboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProductIdRoute = AppProductIdRouteImport.update({
+  id: '/product/$id',
+  path: '/product/$id',
   getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AppAboutRoute
+  '/auth': typeof AppAuthRoute
   '/business-ideas': typeof AppBusinessIdeasRoute
   '/contact': typeof AppContactRoute
   '/dashboard': typeof AppDashboardRoute
@@ -80,10 +93,12 @@ export interface FileRoutesByFullPath {
   '/marketplace': typeof AppMarketplaceRoute
   '/schemes': typeof AppSchemesRoute
   '/success-stories': typeof AppSuccessStoriesRoute
+  '/product/$id': typeof AppProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AppAboutRoute
+  '/auth': typeof AppAuthRoute
   '/business-ideas': typeof AppBusinessIdeasRoute
   '/contact': typeof AppContactRoute
   '/dashboard': typeof AppDashboardRoute
@@ -91,12 +106,14 @@ export interface FileRoutesByTo {
   '/marketplace': typeof AppMarketplaceRoute
   '/schemes': typeof AppSchemesRoute
   '/success-stories': typeof AppSuccessStoriesRoute
+  '/product/$id': typeof AppProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/_app/about': typeof AppAboutRoute
+  '/_app/auth': typeof AppAuthRoute
   '/_app/business-ideas': typeof AppBusinessIdeasRoute
   '/_app/contact': typeof AppContactRoute
   '/_app/dashboard': typeof AppDashboardRoute
@@ -104,12 +121,14 @@ export interface FileRoutesById {
   '/_app/marketplace': typeof AppMarketplaceRoute
   '/_app/schemes': typeof AppSchemesRoute
   '/_app/success-stories': typeof AppSuccessStoriesRoute
+  '/_app/product/$id': typeof AppProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/auth'
     | '/business-ideas'
     | '/contact'
     | '/dashboard'
@@ -117,10 +136,12 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/schemes'
     | '/success-stories'
+    | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/auth'
     | '/business-ideas'
     | '/contact'
     | '/dashboard'
@@ -128,11 +149,13 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/schemes'
     | '/success-stories'
+    | '/product/$id'
   id:
     | '__root__'
     | '/'
     | '/_app'
     | '/_app/about'
+    | '/_app/auth'
     | '/_app/business-ideas'
     | '/_app/contact'
     | '/_app/dashboard'
@@ -140,6 +163,7 @@ export interface FileRouteTypes {
     | '/_app/marketplace'
     | '/_app/schemes'
     | '/_app/success-stories'
+    | '/_app/product/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -212,6 +236,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBusinessIdeasRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/auth': {
+      id: '/_app/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AppAuthRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/about': {
       id: '/_app/about'
       path: '/about'
@@ -219,11 +250,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAboutRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/product/$id': {
+      id: '/_app/product/$id'
+      path: '/product/$id'
+      fullPath: '/product/$id'
+      preLoaderRoute: typeof AppProductIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppAboutRoute: typeof AppAboutRoute
+  AppAuthRoute: typeof AppAuthRoute
   AppBusinessIdeasRoute: typeof AppBusinessIdeasRoute
   AppContactRoute: typeof AppContactRoute
   AppDashboardRoute: typeof AppDashboardRoute
@@ -231,10 +270,12 @@ interface AppRouteChildren {
   AppMarketplaceRoute: typeof AppMarketplaceRoute
   AppSchemesRoute: typeof AppSchemesRoute
   AppSuccessStoriesRoute: typeof AppSuccessStoriesRoute
+  AppProductIdRoute: typeof AppProductIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAboutRoute: AppAboutRoute,
+  AppAuthRoute: AppAuthRoute,
   AppBusinessIdeasRoute: AppBusinessIdeasRoute,
   AppContactRoute: AppContactRoute,
   AppDashboardRoute: AppDashboardRoute,
@@ -242,6 +283,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppMarketplaceRoute: AppMarketplaceRoute,
   AppSchemesRoute: AppSchemesRoute,
   AppSuccessStoriesRoute: AppSuccessStoriesRoute,
+  AppProductIdRoute: AppProductIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -253,13 +295,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

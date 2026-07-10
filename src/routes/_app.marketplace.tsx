@@ -1,5 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { MessageCircle, Star, MapPin } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import candlesImg from "@/assets/m-candles.jpg";
 import soapImg from "@/assets/m-soap.jpg";
 import pickleImg from "@/assets/m-pickle.jpg";
@@ -32,6 +34,7 @@ const PRODUCT_IMAGES = [
 const FALLBACK = candlesImg;
 
 export const Route = createFileRoute("/_app/marketplace")({
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Marketplace — Community Makers' Market" },
@@ -43,8 +46,46 @@ export const Route = createFileRoute("/_app/marketplace")({
   component: MarketplacePage,
 });
 
+type DbProduct = {
+  id: string; seller_id: string; name: string; price: number; image_url: string;
+  area: string | null; discount_percent: number;
+  shop_name?: string;
+  avg_rating?: number;
+};
+
 function MarketplacePage() {
   const { tr } = useLang();
+  const [dbProducts, setDbProducts] = useState<DbProduct[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("products")
+        .select("id,seller_id,name,price,image_url,area,discount_percent")
+        .order("created_at", { ascending: false });
+      if (!data || data.length === 0) return;
+      const ids = data.map((p) => p.id);
+      const sellerIds = Array.from(new Set(data.map((p) => p.seller_id)));
+      const [{ data: revs }, { data: profs }] = await Promise.all([
+        supabase.from("reviews").select("product_id,rating").in("product_id", ids),
+        supabase.from("profiles").select("id,shop_name").in("id", sellerIds),
+      ]);
+      const ratings: Record<string, { sum: number; n: number }> = {};
+      (revs ?? []).forEach((r) => {
+        const cur = ratings[r.product_id] ?? { sum: 0, n: 0 };
+        cur.sum += r.rating; cur.n += 1;
+        ratings[r.product_id] = cur;
+      });
+      const shopMap = new Map<string, string>();
+      (profs ?? []).forEach((p) => shopMap.set(p.id, p.shop_name));
+      setDbProducts(data.map((p) => ({
+        ...p,
+        shop_name: shopMap.get(p.seller_id),
+        avg_rating: ratings[p.id] ? ratings[p.id].sum / ratings[p.id].n : 0,
+      })));
+    })();
+  }, []);
+
   return (
     <>
       <section className="border-b border-border bg-gradient-sunrise/60">
@@ -61,6 +102,44 @@ function MarketplacePage() {
 
       <section className="py-16">
         <div className="mx-auto grid max-w-7xl gap-6 px-6 sm:grid-cols-2 lg:grid-cols-4">
+          {dbProducts.map((p) => {
+            const disc = p.discount_percent;
+            const finalPrice = disc > 0 ? p.price * (1 - disc / 100) : p.price;
+            return (
+              <Link key={p.id} to="/product/$id" params={{ id: p.id }}
+                className="group overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:shadow-warm">
+                <div className="relative overflow-hidden">
+                  <img src={p.image_url} alt={p.name} loading="lazy"
+                    className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105" />
+                  {disc > 0 && (
+                    <span className="absolute left-3 top-3 rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-accent-foreground shadow-soft">-{disc}%</span>
+                  )}
+                  {(p.avg_rating ?? 0) > 0 && (
+                    <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-background/90 px-2.5 py-1 text-xs font-semibold shadow-soft backdrop-blur">
+                      <Star className="h-3 w-3 fill-mustard text-mustard" />
+                      {(p.avg_rating ?? 0).toFixed(1)}
+                    </div>
+                  )}
+                </div>
+                <div className="p-5">
+                  <h3 className="font-display text-lg font-semibold leading-tight">{p.name}</h3>
+                  <div className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <MapPin className="h-3 w-3" /> {p.shop_name ?? "Local seller"}{p.area ? ` · ${p.area}` : ""}
+                  </div>
+                  <div className="mt-4 flex items-center justify-between">
+                    <div>
+                      <div className="font-display text-xl font-semibold text-primary">₹{finalPrice.toFixed(0)}</div>
+                      {disc > 0 && <div className="text-xs text-muted-foreground line-through">₹{p.price.toFixed(0)}</div>}
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-2 text-xs font-semibold text-background">
+                      <MessageCircle className="h-3.5 w-3.5" /> {tr.common.contact}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+
           {tr.market.products.map((p, i) => (
             <article key={i} className="group overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:shadow-warm">
               <div className="relative overflow-hidden">
