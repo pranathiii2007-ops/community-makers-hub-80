@@ -1,0 +1,1 @@
+ALTER TABLE public.inquiries ADD COLUMN IF NOT EXISTS reply text; ALTER TABLE public.inquiries ADD COLUMN IF NOT EXISTS replied_at timestamp with time zone; CREATE POLICY "Buyers can read inquiries by product" ON public.inquiries FOR SELECT TO anon, authenticated USING (true);
