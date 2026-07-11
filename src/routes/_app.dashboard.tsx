@@ -35,6 +35,8 @@ type Inquiry = {
   message: string;
   read: boolean;
   created_at: string;
+  reply: string | null;
+  replied_at: string | null;
   products?: { name: string } | null;
 };
 
@@ -201,23 +203,60 @@ function InquiriesTab({ inquiries, onChanged }: { inquiries: Inquiry[]; onChange
   return (
     <div className="space-y-3">
       {inquiries.map((i) => (
-        <article key={i.id} className={`rounded-2xl border bg-card p-5 ${i.read ? "border-border" : "border-primary/40 bg-primary/5"}`}>
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-wider text-primary">{i.products?.name ?? "Product"}</div>
-              <div className="mt-1 font-display text-lg font-semibold">{i.buyer_name}</div>
-              <a href={`tel:${i.phone.replace(/\s/g, "")}`} className="text-sm text-muted-foreground hover:text-foreground">{i.phone}</a>
-            </div>
-            <div className="flex items-center gap-2">
-              <button onClick={() => toggleRead(i)} className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary">Mark as {i.read ? "unread" : "read"}</button>
-              <button onClick={() => remove(i.id)} className="rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/10">Delete</button>
-            </div>
-          </div>
-          <p className="mt-3 text-sm leading-relaxed text-foreground/90">{i.message}</p>
-          <div className="mt-2 text-xs text-muted-foreground">{new Date(i.created_at).toLocaleString()}</div>
-        </article>
+        <InquiryCard key={i.id} inquiry={i} onToggleRead={() => toggleRead(i)} onDelete={() => remove(i.id)} onChanged={onChanged} />
       ))}
     </div>
+  );
+}
+
+function InquiryCard({ inquiry, onToggleRead, onDelete, onChanged }: {
+  inquiry: Inquiry; onToggleRead: () => void; onDelete: () => void; onChanged: () => void;
+}) {
+  const [reply, setReply] = useState(inquiry.reply ?? "");
+  const [busy, setBusy] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const send = async () => {
+    if (!reply.trim()) return;
+    setBusy(true);
+    await supabase.from("inquiries").update({ reply: reply.trim(), replied_at: new Date().toISOString(), read: true }).eq("id", inquiry.id);
+    setBusy(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+    onChanged();
+  };
+  return (
+    <article className={`rounded-2xl border bg-card p-5 ${inquiry.read ? "border-border" : "border-primary/40 bg-primary/5"}`}>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <div className="text-xs font-semibold uppercase tracking-wider text-primary">{inquiry.products?.name ?? "Product"}</div>
+          <div className="mt-1 font-display text-lg font-semibold">{inquiry.buyer_name}</div>
+          <a href={`tel:${inquiry.phone.replace(/\s/g, "")}`} className="text-sm text-muted-foreground hover:text-foreground">{inquiry.phone}</a>
+        </div>
+        <div className="flex items-center gap-2">
+          <button onClick={onToggleRead} className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary">Mark as {inquiry.read ? "unread" : "read"}</button>
+          <button onClick={onDelete} className="rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/10">Delete</button>
+        </div>
+      </div>
+      <p className="mt-3 text-sm leading-relaxed text-foreground/90">{inquiry.message}</p>
+      <div className="mt-2 text-xs text-muted-foreground">{new Date(inquiry.created_at).toLocaleString()}</div>
+
+      <div className="mt-4 rounded-xl border border-border bg-background p-3">
+        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Your reply</div>
+        <textarea value={reply} onChange={(e) => setReply(e.target.value)} rows={2}
+          placeholder="Hi, thanks for your interest! Yes, I can…"
+          className="w-full resize-none rounded-lg border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary" />
+        <div className="mt-2 flex items-center justify-between gap-2">
+          <div className="text-xs text-muted-foreground">
+            {inquiry.replied_at ? `Last sent: ${new Date(inquiry.replied_at).toLocaleString()}` : "Not replied yet"}
+          </div>
+          <button onClick={send} disabled={busy || !reply.trim()}
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60">
+            {busy ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
+            {saved ? "Reply sent ✓" : inquiry.reply ? "Update reply" : "Send reply"}
+          </button>
+        </div>
+      </div>
+    </article>
   );
 }
 
