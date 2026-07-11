@@ -60,6 +60,9 @@ function Hero() {
             <Link to="/marketplace" className="inline-flex items-center gap-2 rounded-full border-2 border-foreground/20 bg-background/60 px-6 py-3.5 text-sm font-semibold text-foreground backdrop-blur transition hover:border-foreground/40">
               {tr.hero.cta2}
             </Link>
+            <Link to="/auth" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-soft transition hover:opacity-90">
+              Start selling <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
 
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-foreground/70">
