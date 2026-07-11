@@ -41,8 +41,15 @@ function AuthPage() {
     setErr(null);
     const cleanUser = username.trim().toLowerCase().replace(/[^a-z0-9_]/g, "");
     if (cleanUser.length < 3) { setErr("Username must be at least 3 letters/numbers."); return; }
-    if (password.length < 8 || !/\d/.test(password)) {
-      setErr("Password must be at least 8 characters and include a number.");
+    const weak = new Set([
+      "12345","123456","1234567","12345678","123456789","1234567890",
+      "password","password1","qwerty","qwerty123","abc123","111111","000000",
+      "iloveyou","admin","welcome","letmein","monkey"
+    ]);
+    const pwd = password.trim();
+    if (pwd.length < 4) { setErr("Please choose a slightly longer password."); return; }
+    if (weak.has(pwd.toLowerCase()) || /^(.)\1+$/.test(pwd) || /^0?1?2345/.test(pwd)) {
+      setErr("That password is too common. Please pick something only you would know.");
       return;
     }
     setBusy(true);
