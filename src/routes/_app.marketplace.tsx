@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MessageCircle, Star, MapPin } from "lucide-react";
+import { MessageCircle, Star, MapPin, X, Send } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import candlesImg from "@/assets/m-candles.jpg";
@@ -56,6 +56,7 @@ type DbProduct = {
 function MarketplacePage() {
   const { tr } = useLang();
   const [dbProducts, setDbProducts] = useState<DbProduct[]>([]);
+  const [demoContact, setDemoContact] = useState<{ name: string; seller: string } | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -164,7 +165,8 @@ function MarketplacePage() {
                 </div>
                 <div className="mt-4 flex items-center justify-between">
                   <div className="font-display text-xl font-semibold text-primary">{p.price}</div>
-                  <button className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-2 text-xs font-semibold text-background transition hover:gap-2">
+                  <button onClick={() => setDemoContact({ name: p.name, seller: p.seller })}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-2 text-xs font-semibold text-background transition hover:gap-2">
                     <MessageCircle className="h-3.5 w-3.5" /> {tr.common.contact}
                   </button>
                 </div>
@@ -177,6 +179,50 @@ function MarketplacePage() {
           {tr.market.footer}
         </p>
       </section>
+
+      {demoContact && <DemoContactModal name={demoContact.name} seller={demoContact.seller} onClose={() => setDemoContact(null)} />}
     </>
+  );
+}
+
+function DemoContactModal({ name, seller, onClose }: { name: string; seller: string; onClose: () => void }) {
+  const [buyerName, setBuyerName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState(`Hi ${seller}, I'm interested in "${name}".`);
+  const [sent, setSent] = useState(false);
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!buyerName.trim() || !phone.trim()) return;
+    setSent(true);
+  };
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/40 p-0 backdrop-blur-sm sm:items-center sm:p-6">
+      <div className="w-full max-w-md overflow-hidden rounded-t-3xl bg-card shadow-warm sm:rounded-3xl">
+        <div className="flex items-center justify-between border-b border-border px-5 py-3">
+          <div className="text-sm font-semibold">Contact {seller}</div>
+          <button onClick={onClose} className="grid h-8 w-8 place-items-center rounded-full hover:bg-secondary"><X className="h-4 w-4" /></button>
+        </div>
+        {sent ? (
+          <div className="p-6 text-sm">
+            <div className="font-semibold text-primary">Thanks! Your interest is noted.</div>
+            <p className="mt-1 text-muted-foreground">This is a sample listing. Real sellers reply directly from their dashboard — sign in to list your own products.</p>
+            <button onClick={onClose} className="mt-4 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background">Close</button>
+          </div>
+        ) : (
+          <form onSubmit={submit} className="space-y-3 p-5">
+            <div className="text-xs text-muted-foreground">About: <span className="font-semibold text-foreground">{name}</span></div>
+            <input value={buyerName} onChange={(e) => setBuyerName(e.target.value)} placeholder="Your name" required
+              className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary" />
+            <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Your phone" required
+              className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary" />
+            <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={3}
+              className="w-full resize-none rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary" />
+            <button type="submit" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground hover:opacity-90">
+              <Send className="h-3.5 w-3.5" /> Send
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
   );
 }

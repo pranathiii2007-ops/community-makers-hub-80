@@ -22,7 +22,7 @@ function AuthPage() {
   const { user, loading } = useAuth();
   const { redirect } = useSearch({ from: "/_app/auth" });
   const [mode, setMode] = useState<"signin" | "signup">("signin");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [shopName, setShopName] = useState("");
   const [area, setArea] = useState("");
@@ -34,11 +34,20 @@ function AuthPage() {
     if (!loading && user) nav({ to: redirect || "/dashboard" });
   }, [user, loading, nav, redirect]);
 
+  const toEmail = (u: string) => `${u.trim().toLowerCase().replace(/[^a-z0-9_]/g, "")}@makers.local`;
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErr(null);
+    const cleanUser = username.trim().toLowerCase().replace(/[^a-z0-9_]/g, "");
+    if (cleanUser.length < 3) { setErr("Username must be at least 3 letters/numbers."); return; }
+    if (password.length < 8 || !/\d/.test(password)) {
+      setErr("Password must be at least 8 characters and include a number.");
+      return;
+    }
     setBusy(true);
     try {
+      const email = toEmail(cleanUser);
       if (mode === "signup") {
         if (!shopName.trim()) throw new Error("Shop name is required");
         const { error } = await supabase.auth.signUp({
@@ -94,13 +103,15 @@ function AuthPage() {
             </div>
           </>
         )}
-        <Field label="Email *">
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-            className="input" required />
+        <Field label="Username *">
+          <input value={username} onChange={(e) => setUsername(e.target.value)}
+            placeholder="lakshmi_crafts" autoComplete="username" className="input" required />
+          <span className="mt-1 block text-[11px] text-muted-foreground">Letters and numbers only. No email needed.</span>
         </Field>
         <Field label="Password *">
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-            className="input" required minLength={6} />
+            className="input" required minLength={8} autoComplete={mode === "signup" ? "new-password" : "current-password"} />
+          <span className="mt-1 block text-[11px] text-muted-foreground">At least 8 characters, must include a number.</span>
         </Field>
 
         {err && <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{err}</p>}

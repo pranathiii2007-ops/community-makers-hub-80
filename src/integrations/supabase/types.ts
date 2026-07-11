@@ -23,6 +23,8 @@ export type Database = {
           phone: string
           product_id: string
           read: boolean
+          replied_at: string | null
+          reply: string | null
           seller_id: string
         }
         Insert: {
@@ -33,6 +35,8 @@ export type Database = {
           phone: string
           product_id: string
           read?: boolean
+          replied_at?: string | null
+          reply?: string | null
           seller_id: string
         }
         Update: {
@@ -43,6 +47,8 @@ export type Database = {
           phone?: string
           product_id?: string
           read?: boolean
+          replied_at?: string | null
+          reply?: string | null
           seller_id?: string
         }
         Relationships: [
