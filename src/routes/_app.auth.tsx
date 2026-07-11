@@ -41,15 +41,8 @@ function AuthPage() {
     setErr(null);
     const cleanUser = username.trim().toLowerCase().replace(/[^a-z0-9_]/g, "");
     if (cleanUser.length < 3) { setErr("Username must be at least 3 letters/numbers."); return; }
-    const weak = new Set([
-      "12345","123456","1234567","12345678","123456789","1234567890",
-      "password","password1","qwerty","qwerty123","abc123","111111","000000",
-      "iloveyou","admin","welcome","letmein","monkey"
-    ]);
-    const pwd = password.trim();
-    if (pwd.length < 6) { setErr("Password should be at least 6 characters."); return; }
-    if (weak.has(pwd.toLowerCase()) || /^(.)\1+$/.test(pwd) || /^0?1?2345/.test(pwd)) {
-      setErr("That password is too common. Please pick something only you would know.");
+    if (password.length < 8 || !/\d/.test(password)) {
+      setErr("Password must be at least 8 characters and include a number.");
       return;
     }
     setBusy(true);
@@ -117,8 +110,8 @@ function AuthPage() {
         </Field>
         <Field label="Password *">
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-            className="input" required minLength={6} autoComplete={mode === "signup" ? "new-password" : "current-password"} />
-          <span className="mt-1 block text-[11px] text-muted-foreground">At least 6 characters. Anything you'll remember — just avoid obvious ones like 12345 or "password".</span>
+            className="input" required minLength={8} autoComplete={mode === "signup" ? "new-password" : "current-password"} />
+          <span className="mt-1 block text-[11px] text-muted-foreground">At least 8 characters, must include a number.</span>
         </Field>
 
         {err && <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{err}</p>}
