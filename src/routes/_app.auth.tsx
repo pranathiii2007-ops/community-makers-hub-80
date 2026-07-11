@@ -47,7 +47,7 @@ function AuthPage() {
       "iloveyou","admin","welcome","letmein","monkey"
     ]);
     const pwd = password.trim();
-    if (pwd.length < 4) { setErr("Please choose a slightly longer password."); return; }
+    if (pwd.length < 6) { setErr("Password should be at least 6 characters."); return; }
     if (weak.has(pwd.toLowerCase()) || /^(.)\1+$/.test(pwd) || /^0?1?2345/.test(pwd)) {
       setErr("That password is too common. Please pick something only you would know.");
       return;
@@ -117,8 +117,8 @@ function AuthPage() {
         </Field>
         <Field label="Password *">
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-            className="input" required minLength={8} autoComplete={mode === "signup" ? "new-password" : "current-password"} />
-          <span className="mt-1 block text-[11px] text-muted-foreground">At least 8 characters, must include a number.</span>
+            className="input" required minLength={6} autoComplete={mode === "signup" ? "new-password" : "current-password"} />
+          <span className="mt-1 block text-[11px] text-muted-foreground">At least 6 characters. Anything you'll remember — just avoid obvious ones like 12345 or "password".</span>
         </Field>
 
         {err && <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{err}</p>}
