@@ -57,11 +57,8 @@ function Hero() {
             <Link to="/business-ideas" className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-semibold text-background shadow-warm transition hover:gap-3">
               {tr.hero.cta1} <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link to="/marketplace" className="inline-flex items-center gap-2 rounded-full border-2 border-foreground/20 bg-background/60 px-6 py-3.5 text-sm font-semibold text-foreground backdrop-blur transition hover:border-foreground/40">
-              {tr.hero.cta2}
-            </Link>
             <Link to="/auth" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-soft transition hover:opacity-90">
-              Start selling <ArrowRight className="h-4 w-4" />
+              {tr.hero.cta2} <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
