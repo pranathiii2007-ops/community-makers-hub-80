@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth";
 import { Store, Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/_app/auth")({
-  validateSearch: (s: Record<string, unknown>) => ({
+  validateSearch: (s: Record<string, unknown>): { redirect?: string } => ({
     redirect: typeof s.redirect === "string" ? s.redirect : undefined,
   }),
   head: () => ({
