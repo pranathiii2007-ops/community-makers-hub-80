@@ -9,61 +9,31 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppSuccessStoriesRouteImport } from './routes/_app.success-stories'
-import { Route as AppSchemesRouteImport } from './routes/_app.schemes'
-import { Route as AppMarketplaceRouteImport } from './routes/_app.marketplace'
-import { Route as AppHomeRouteImport } from './routes/_app.home'
-import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
-import { Route as AppContactRouteImport } from './routes/_app.contact'
-import { Route as AppBusinessIdeasRouteImport } from './routes/_app.business-ideas'
-import { Route as AppAuthRouteImport } from './routes/_app.auth'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppAboutRouteImport } from './routes/_app.about'
+import { Route as AppAuthRouteImport } from './routes/_app.auth'
+import { Route as AppBusinessIdeasRouteImport } from './routes/_app.business-ideas'
+import { Route as AppContactRouteImport } from './routes/_app.contact'
+import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppHomeRouteImport } from './routes/_app.home'
+import { Route as AppMarketplaceRouteImport } from './routes/_app.marketplace'
+import { Route as AppSchemesRouteImport } from './routes/_app.schemes'
+import { Route as AppSuccessStoriesRouteImport } from './routes/_app.success-stories'
 import { Route as AppProductIdRouteImport } from './routes/_app.product.$id'
 
-const AppRoute = AppRouteImport.update({
-  id: '/_app',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppSuccessStoriesRoute = AppSuccessStoriesRouteImport.update({
-  id: '/success-stories',
-  path: '/success-stories',
-  getParentRoute: () => AppRoute,
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AppSchemesRoute = AppSchemesRouteImport.update({
-  id: '/schemes',
-  path: '/schemes',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppMarketplaceRoute = AppMarketplaceRouteImport.update({
-  id: '/marketplace',
-  path: '/marketplace',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppHomeRoute = AppHomeRouteImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppDashboardRoute = AppDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppContactRoute = AppContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppBusinessIdeasRoute = AppBusinessIdeasRouteImport.update({
-  id: '/business-ideas',
-  path: '/business-ideas',
+const AppAboutRoute = AppAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAuthRoute = AppAuthRouteImport.update({
@@ -71,9 +41,39 @@ const AppAuthRoute = AppAuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => AppRoute,
 } as any)
-const AppAboutRoute = AppAboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const AppBusinessIdeasRoute = AppBusinessIdeasRouteImport.update({
+  id: '/business-ideas',
+  path: '/business-ideas',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContactRoute = AppContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHomeRoute = AppHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMarketplaceRoute = AppMarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSchemesRoute = AppSchemesRouteImport.update({
+  id: '/schemes',
+  path: '/schemes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSuccessStoriesRoute = AppSuccessStoriesRouteImport.update({
+  id: '/success-stories',
+  path: '/success-stories',
   getParentRoute: () => AppRoute,
 } as any)
 const AppProductIdRoute = AppProductIdRouteImport.update({
@@ -173,13 +173,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_app': {
-      id: '/_app'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AppRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -187,53 +180,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app/success-stories': {
-      id: '/_app/success-stories'
-      path: '/success-stories'
-      fullPath: '/success-stories'
-      preLoaderRoute: typeof AppSuccessStoriesRouteImport
-      parentRoute: typeof AppRoute
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_app/schemes': {
-      id: '/_app/schemes'
-      path: '/schemes'
-      fullPath: '/schemes'
-      preLoaderRoute: typeof AppSchemesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/marketplace': {
-      id: '/_app/marketplace'
-      path: '/marketplace'
-      fullPath: '/marketplace'
-      preLoaderRoute: typeof AppMarketplaceRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/home': {
-      id: '/_app/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof AppHomeRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/dashboard': {
-      id: '/_app/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AppDashboardRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/contact': {
-      id: '/_app/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof AppContactRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/business-ideas': {
-      id: '/_app/business-ideas'
-      path: '/business-ideas'
-      fullPath: '/business-ideas'
-      preLoaderRoute: typeof AppBusinessIdeasRouteImport
+    '/_app/about': {
+      id: '/_app/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AppAboutRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/auth': {
@@ -243,11 +201,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAuthRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/about': {
-      id: '/_app/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AppAboutRouteImport
+    '/_app/business-ideas': {
+      id: '/_app/business-ideas'
+      path: '/business-ideas'
+      fullPath: '/business-ideas'
+      preLoaderRoute: typeof AppBusinessIdeasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/contact': {
+      id: '/_app/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof AppContactRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/home': {
+      id: '/_app/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AppHomeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/marketplace': {
+      id: '/_app/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof AppMarketplaceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/schemes': {
+      id: '/_app/schemes'
+      path: '/schemes'
+      fullPath: '/schemes'
+      preLoaderRoute: typeof AppSchemesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/success-stories': {
+      id: '/_app/success-stories'
+      path: '/success-stories'
+      fullPath: '/success-stories'
+      preLoaderRoute: typeof AppSuccessStoriesRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/product/$id': {
